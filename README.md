@@ -1,2 +1,2 @@
 # croft-frontend
-Web app for Croft
+Prototype frontend for Croft

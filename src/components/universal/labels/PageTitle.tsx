@@ -2,7 +2,7 @@ import React from "react";
 
 const PageTitle = () => {
   return (
-    <div className="w-full select-none my-6">
+    <div className="w-full select-none mb-8">
       <p className="font-mono text-2xl">CRAWL SET</p>
       <div className="divider"></div>
       <p className="font-mono text-secondary text-sm">

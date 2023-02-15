@@ -9,7 +9,7 @@ const ContentDisplayContainer: React.FC<IContentDisplayContainer> = ({
   contentRows,
 }) => {
   return (
-    <div className="m-auto w-3/4 py-1 border border-secondary rounded-lg h-80 overflow-scroll">
+    <div className="m-auto w-full py-1 border border-secondary rounded-lg h-80 overflow-scroll">
       {contentRows.map((row, index) => {
         return (
           <>

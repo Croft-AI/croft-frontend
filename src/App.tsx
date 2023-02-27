@@ -5,6 +5,7 @@ import NavBar from "./components/universal/nav/NavBar";
 import ContentDisplayRow from "./components/universal/layouts/ContentDisplayRow";
 import ContentDisplayContainer from "./components/universal/layouts/ContentDisplayContainer";
 import PageTitle from "./components/universal/labels/PageTitle";
+import LoginContainer from "./components/universal/login/LoginContainer";
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
         </div>
         <div className="p-8 w-full">
           <PageTitle />
-          <ContentDisplayContainer
+          <LoginContainer />
+          {/* <ContentDisplayContainer
             contentRows={[
               {
                 title: "Shafaq News",
@@ -90,7 +92,7 @@ function App() {
                 status: "ONLINE",
               },
             ]}
-          />
+          /> */}
         </div>
       </div>
     </>

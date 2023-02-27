@@ -7,7 +7,7 @@ import {
 const NavBar = () => {
   return (
     <>
-      <div className="p-2 bg-base-100 border-b-2">
+      <div className="p-4 bg-base-100 border-b-2">
         <div className="flex flex-row">
           <div className="grow">
             <a className="btn btn-ghost normal-case text-xl font-mono">CROFT</a>

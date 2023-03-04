@@ -6,6 +6,7 @@ import ContentDisplayRow from "./components/universal/layouts/ContentDisplayRow"
 import ContentDisplayContainer from "./components/universal/layouts/ContentDisplayContainer";
 import PageTitle from "./components/universal/labels/PageTitle";
 import LoginContainer from "./components/universal/login/LoginContainer";
+import SignUpContainer from "./components/universal/login/SignUpContainer";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <div className="p-8 w-full">
           <PageTitle />
           <LoginContainer />
+          <SignUpContainer/>
           {/* <ContentDisplayContainer
             contentRows={[
               {

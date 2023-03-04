@@ -7,6 +7,7 @@ import ContentDisplayContainer from "./components/universal/layouts/ContentDispl
 import PageTitle from "./components/universal/labels/PageTitle";
 import LoginContainer from "./components/universal/login/LoginContainer";
 import SignUpContainer from "./components/universal/login/SignUpContainer";
+import ForgotPasswordContainer from "./components/universal/login/ForgotPasswordContainer";
 
 function App() {
   return (
@@ -29,8 +30,11 @@ function App() {
         </div>
         <div className="p-8 w-full">
           <PageTitle />
+
+          <ForgotPasswordContainer />
           <LoginContainer />
-          <SignUpContainer/>
+          <SignUpContainer />
+
           {/* <ContentDisplayContainer
             contentRows={[
               {

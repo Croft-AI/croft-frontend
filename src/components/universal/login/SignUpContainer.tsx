@@ -8,7 +8,7 @@ const SignUpContainer = () => {
         <CroftIcon className="w-8 h-8" />
         <p className="ml-2">Croft.ai</p>
       </div>
-      <p className="mt-4 text-sm text-secondary">Traverse the web now...</p>
+      <p className="mt-4 text-sm text-secondary">Traverse the web with us...</p>
       <br></br>
       <div className="form-control w-full max-w-xs">
         <div className="flex flex-row w-full gap-4">

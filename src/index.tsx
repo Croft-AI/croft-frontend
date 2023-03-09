@@ -7,11 +7,20 @@ import reportWebVitals from "./reportWebVitals";
 import LoginPage from "./pages/login/LoginPage";
 import SignUpPage from "./pages/login/SignUpPage";
 import ForgotPasswordPage from "./pages/login/ForgotPasswordPage";
+import DashboardPage from "./pages/dashboard/Dashboard";
 const router = createBrowserRouter([
   { path: "/", element: <></> },
-  { path: "/login", element: <LoginPage /> },
+  {
+    path: "/login",
+    element: (
+      <>
+        <LoginPage />
+      </>
+    ),
+  },
   { path: "/signup", element: <SignUpPage /> },
   { path: "/forgot", element: <ForgotPasswordPage /> },
+  { path: "/dashboard", element: <DashboardPage/> },
 ]);
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

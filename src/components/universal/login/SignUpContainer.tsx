@@ -1,6 +1,7 @@
 import React from "react";
 import { IoLogoGoogle } from "react-icons/io5";
 import { ReactComponent as CroftIcon } from "../../../assets/CroftIcon.svg";
+import { signInWithGoogle } from "../../../firebase/auth/signInWithGoogle";
 const SignUpContainer = () => {
   return (
     <div className="w-96 h-fit p-8 border border-2 shadow shadow-lg rounded-3xl p-8 font-mono select-none bg-white">
@@ -62,7 +63,10 @@ const SignUpContainer = () => {
       <button className="btn w-full mt-6">Sign Up</button>
       <div className="divider text-secondary">OR</div>
       <div className="w-full flex">
-        <button className="btn btn-circle btn-ghost m-auto">
+        <button
+          className="btn btn-circle btn-ghost m-auto"
+          onClick={signInWithGoogle}
+        >
           <IoLogoGoogle className="w-10 h-10" />
         </button>
       </div>

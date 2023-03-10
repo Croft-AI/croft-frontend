@@ -9,7 +9,7 @@ const LoginContainer = () => {
   const navigate = useNavigate();
   const SignIn = async () => {
     try {
-      await signInWithGoogle();
+      signInWithGoogle();
     } catch (e) {
       console.error(e);
     }
@@ -18,7 +18,7 @@ const LoginContainer = () => {
     if (auth) {
       navigate("/");
     }
-  }, [auth]);
+  }, [auth, navigate]);
   return (
     <div className="w-80 h-fit p-8 border border-2 shadow shadow-lg rounded-3xl p-8 font-mono select-none bg-white">
       <div className="text-2xl font-black flex flex-row">

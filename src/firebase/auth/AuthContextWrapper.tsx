@@ -17,7 +17,7 @@ export const FirebaseAuthWrapper: React.FC<AuthDataProps> = ({ children }) => {
   const [user, setUser] = useState<string | undefined>(undefined);
   useEffect(() => {
     onAuthStateChanged(auth, (FirebaseUser) => {
-      setUser((FirebaseUser as User).uid);
+      setUser((FirebaseUser as User)?.uid);
       setLoading(false);
     });
   }, []);

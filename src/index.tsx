@@ -9,8 +9,17 @@ import SignUpPage from "./pages/login/SignUpPage";
 import ForgotPasswordPage from "./pages/login/ForgotPasswordPage";
 import DashboardPage from "./pages/dashboard/Dashboard";
 import { FirebaseAuthWrapper } from "./firebase/auth/AuthContextWrapper";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import HomePage from "./pages/home/HomePage";
 const router = createBrowserRouter([
-  { path: "/", element: <></> },
+  {
+    path: "/",
+    element: (
+      <ProtectedRoute>
+        <HomePage />
+      </ProtectedRoute>
+    ),
+  },
   {
     path: "/login",
     element: (

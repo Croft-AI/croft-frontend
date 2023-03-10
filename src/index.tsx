@@ -8,6 +8,7 @@ import LoginPage from "./pages/login/LoginPage";
 import SignUpPage from "./pages/login/SignUpPage";
 import ForgotPasswordPage from "./pages/login/ForgotPasswordPage";
 import DashboardPage from "./pages/dashboard/Dashboard";
+import { FirebaseAuthWrapper } from "./firebase/auth/AuthContextWrapper";
 const router = createBrowserRouter([
   { path: "/", element: <></> },
   {
@@ -20,11 +21,13 @@ const router = createBrowserRouter([
   },
   { path: "/signup", element: <SignUpPage /> },
   { path: "/forgot", element: <ForgotPasswordPage /> },
-  { path: "/dashboard", element: <DashboardPage/> },
+  { path: "/dashboard", element: <DashboardPage /> },
 ]);
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <FirebaseAuthWrapper>
+      <RouterProvider router={router} />
+    </FirebaseAuthWrapper>
   </React.StrictMode>
 );
 

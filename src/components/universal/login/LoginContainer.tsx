@@ -53,10 +53,17 @@ const LoginContainer = () => {
       </div>
       <button className="btn w-full mt-6">Login</button>
       <div className="divider text-secondary">OR</div>
-      <div className="w-full flex">
+      <div className="w-full flex flex-col">
         <button className="btn btn-circle btn-ghost m-auto" onClick={SignIn}>
           <IoLogoGoogle className="w-10 h-10" />
         </button>
+        <br></br>
+        <p className="text-2xs text-secondary m-auto">
+          Sign up{" "}
+          <a href="/signup" className="underline hover:text-primary">
+            here
+          </a>
+        </p>
       </div>
     </div>
   );

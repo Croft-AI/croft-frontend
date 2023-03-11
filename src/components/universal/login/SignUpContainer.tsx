@@ -15,17 +15,10 @@ const SignUpContainer = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [cfmPassword, setCfmPassword] = useState<string>("");
-  const SignInWithGoogle = async () => {
+
+  const signUpWithEmailPassword = async () => {
     try {
-      signInWithGoogle();
-    } catch (e) {
-      console.error(e);
-    }
-  };
-  const SignUpWithEmailPassword = async () => {
-    try {
-      if (!isPasswordValid(password, cfmPassword))
-        throw new Error("Password Error!");
+      isPasswordValid(password, cfmPassword);
       const userObject = {
         firstName,
         lastName,
@@ -33,7 +26,7 @@ const SignUpContainer = () => {
         createdOn: new Date(),
         lastLogin: new Date(),
         impressions: [],
-        photoUrl: "",
+        photoURL: "",
       };
       await createUserWithPass(userObject, password);
     } catch (e) {
@@ -107,14 +100,14 @@ const SignUpContainer = () => {
         />
       </div>
       <br></br>
-      <button className="btn w-full mt-6" onClick={SignUpWithEmailPassword}>
+      <button className="btn w-full mt-6" onClick={signUpWithEmailPassword}>
         Sign Up
       </button>
       <div className="divider text-secondary">OR</div>
       <div className="w-full flex">
         <button
           className="btn btn-circle btn-ghost m-auto"
-          onClick={SignInWithGoogle}
+          onClick={signInWithGoogle}
         >
           <IoLogoGoogle className="w-10 h-10" />
         </button>

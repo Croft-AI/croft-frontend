@@ -1,19 +1,13 @@
 import React, { useEffect } from "react";
 import { IoLogoGoogle } from "react-icons/io5";
-import { Navigate, redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ReactComponent as CroftIcon } from "../../../assets/CroftIcon.svg";
 import { useAuth } from "../../../firebase/auth/AuthContextWrapper";
 import { signInWithGoogle } from "../../../firebase/auth/signInWithGoogle";
 const LoginContainer = () => {
   const auth = useAuth();
   const navigate = useNavigate();
-  const SignIn = async () => {
-    try {
-      signInWithGoogle();
-    } catch (e) {
-      console.error(e);
-    }
-  };
+
   useEffect(() => {
     if (auth) {
       navigate("/");
@@ -54,7 +48,10 @@ const LoginContainer = () => {
       <button className="btn w-full mt-6">Login</button>
       <div className="divider text-secondary">OR</div>
       <div className="w-full flex flex-col">
-        <button className="btn btn-circle btn-ghost m-auto" onClick={SignIn}>
+        <button
+          className="btn btn-circle btn-ghost m-auto"
+          onClick={signInWithGoogle}
+        >
           <IoLogoGoogle className="w-10 h-10" />
         </button>
         <br></br>

@@ -27,12 +27,9 @@ export const passwordStrengthCheck = (
   return passwordStrengthOptions.WEAK;
 };
 
-export const isPasswordValid = (
-  password: string,
-  cfmPassword: string
-): boolean => {
-  if (!isPasswordSame(password, cfmPassword)) return false;
+export const isPasswordValid = (password: string, cfmPassword: string) => {
+  if (!isPasswordSame(password, cfmPassword))
+    throw new Error("Passwords are not the same!");
   if (passwordStrengthCheck(password) !== passwordStrengthOptions.STRONG)
-    return false;
-  return true;
+    throw new Error("Passwords are not complex enough!");
 };

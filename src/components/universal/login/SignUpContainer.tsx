@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IoLogoGoogle } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as CroftIcon } from "../../../assets/CroftIcon.svg";
@@ -7,12 +7,21 @@ import { signInWithGoogle } from "../../../firebase/auth/signInWithGoogle";
 const SignUpContainer = () => {
   const auth = useAuth();
   const navigate = useNavigate();
-  const SignIn = async () => {
+
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [cfmPassword, setCfmPassword] = useState<string>("");
+  const SignInWithGoogle = async () => {
     try {
       signInWithGoogle();
     } catch (e) {
       console.error(e);
     }
+  };
+  const SignUpWithEmailPassword = async () => {
+    console.log(firstName, lastName, email, password, cfmPassword);
   };
   useEffect(() => {
     if (auth) {
@@ -34,6 +43,7 @@ const SignUpContainer = () => {
               <span className="label-text">First Name</span>
             </label>
             <input
+              onChange={(event) => setFirstName(event.target.value)}
               type="text"
               placeholder="First Name"
               className="input input-bordered w-full max-w-xs"
@@ -44,6 +54,7 @@ const SignUpContainer = () => {
               <span className="label-text">Last Name</span>
             </label>
             <input
+              onChange={(event) => setLastName(event.target.value)}
               type="text"
               placeholder="Last Name"
               className="input input-bordered w-full max-w-xs"
@@ -54,6 +65,7 @@ const SignUpContainer = () => {
           <span className="label-text">Email</span>
         </label>
         <input
+          onChange={(event) => setEmail(event.target.value)}
           type="text"
           placeholder="Email"
           className="input input-bordered w-full max-w-xs"
@@ -62,6 +74,7 @@ const SignUpContainer = () => {
           <span className="label-text">Password</span>
         </label>
         <input
+          onChange={(event) => setPassword(event.target.value)}
           type="password"
           placeholder="Password"
           className="input input-bordered w-full max-w-xs"
@@ -70,16 +83,22 @@ const SignUpContainer = () => {
           <span className="label-text">Confirm Password</span>
         </label>
         <input
+          onChange={(event) => setCfmPassword(event.target.value)}
           type="password"
           placeholder="Password"
           className="input input-bordered w-full max-w-xs"
         />
       </div>
       <br></br>
-      <button className="btn w-full mt-6">Sign Up</button>
+      <button className="btn w-full mt-6" onClick={SignUpWithEmailPassword}>
+        Sign Up
+      </button>
       <div className="divider text-secondary">OR</div>
       <div className="w-full flex">
-        <button className="btn btn-circle btn-ghost m-auto" onClick={SignIn}>
+        <button
+          className="btn btn-circle btn-ghost m-auto"
+          onClick={SignInWithGoogle}
+        >
           <IoLogoGoogle className="w-10 h-10" />
         </button>
       </div>

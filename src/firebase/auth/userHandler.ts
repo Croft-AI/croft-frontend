@@ -1,10 +1,6 @@
 import { auth, db } from "../base";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { signOut } from "firebase/auth";
-
-export const logout = async (): Promise<void> => {
-  signOut(auth);
-};
+import { signOut, createUserWithEmailAndPassword } from "firebase/auth";
 
 export interface User {
   createdOn: Date;
@@ -15,6 +11,32 @@ export interface User {
   lastName: string;
   photoUrl: string;
 }
+
+export const createUserWithPass = async (
+  userObject: User,
+  password: string
+): Promise<void> => {
+  try {
+    createUserWithEmailAndPassword(auth, userObject.email, password)
+      .then(async (userCredential) => {
+        const user = userCredential.user;
+        await createUser(user.uid, userObject);
+      })
+      .catch((error) => {
+        throw new Error(error.message);
+      });
+  } catch (e) {
+    throw new Error("There was a problem with signing up. Try again later.");
+  }
+};
+
+export const logout = async (): Promise<void> => {
+  try {
+    signOut(auth);
+  } catch (e) {
+    throw new Error("There was a problem logging out.");
+  }
+};
 
 export const createUser = async (
   uid: string,

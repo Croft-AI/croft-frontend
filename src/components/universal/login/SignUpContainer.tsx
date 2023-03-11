@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { ReactComponent as CroftIcon } from "../../../assets/CroftIcon.svg";
 import { useAuth } from "../../../firebase/auth/AuthContextWrapper";
 import { signInWithGoogle } from "../../../firebase/auth/signInWithGoogle";
+import { createUserWithPass } from "../../../firebase/auth/userHandler";
+import { isPasswordValid } from "../../../helpers/validators/userValidator";
 const SignUpContainer = () => {
   const auth = useAuth();
   const navigate = useNavigate();
@@ -21,7 +23,22 @@ const SignUpContainer = () => {
     }
   };
   const SignUpWithEmailPassword = async () => {
-    console.log(firstName, lastName, email, password, cfmPassword);
+    try {
+      if (!isPasswordValid(password, cfmPassword))
+        throw new Error("Password Error!");
+      const userObject = {
+        firstName,
+        lastName,
+        email,
+        createdOn: new Date(),
+        lastLogin: new Date(),
+        impressions: [],
+        photoUrl: "",
+      };
+      await createUserWithPass(userObject, password);
+    } catch (e) {
+      console.error(e);
+    }
   };
   useEffect(() => {
     if (auth) {

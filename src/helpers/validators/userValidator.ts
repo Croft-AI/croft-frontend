@@ -26,3 +26,13 @@ export const passwordStrengthCheck = (
     return passwordStrengthOptions.MEDIUM;
   return passwordStrengthOptions.WEAK;
 };
+
+export const isPasswordValid = (
+  password: string,
+  cfmPassword: string
+): boolean => {
+  if (!isPasswordSame(password, cfmPassword)) return false;
+  if (passwordStrengthCheck(password) !== passwordStrengthOptions.STRONG)
+    return false;
+  return true;
+};

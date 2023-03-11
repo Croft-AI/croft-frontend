@@ -1,6 +1,6 @@
 import { db } from "../base";
 
-interface Impression {
+export interface Impression {
   config: object;
   createdBy: string;
   createdOn: Date;

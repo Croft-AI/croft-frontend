@@ -1,6 +1,6 @@
 import { db } from "../base";
 
-interface ScrapeResult {
+export interface ScrapeResult {
   impressionId: string;
   result: object | [];
   scrapeDateTime: Date;

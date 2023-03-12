@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IoLogoGoogle } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as CroftIcon } from "../../../assets/CroftIcon.svg";
 import { useAuth } from "../../../firebase/auth/AuthContextWrapper";
 import { signInWithGoogle } from "../../../firebase/auth/signInWithGoogle";
+import { userLoginWithEmailPassword } from "../../../firebase/auth/userHandler";
 const LoginContainer = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const auth = useAuth();
   const navigate = useNavigate();
 
@@ -26,6 +29,7 @@ const LoginContainer = () => {
           <span className="label-text">Email</span>
         </label>
         <input
+          onChange={(event) => setEmail(event.target.value)}
           type="text"
           placeholder="example@email.com"
           className="input input-bordered w-full max-w-xs"
@@ -34,6 +38,7 @@ const LoginContainer = () => {
           <span className="label-text">Password</span>
         </label>
         <input
+          onChange={(event) => setPassword(event.target.value)}
           type="password"
           placeholder="Password"
           className="input input-bordered w-full max-w-xs"
@@ -45,7 +50,12 @@ const LoginContainer = () => {
           </span>
         </label>
       </div>
-      <button className="btn w-full mt-6">Login</button>
+      <button
+        className="btn w-full mt-6"
+        onClick={() => userLoginWithEmailPassword(email, password)}
+      >
+        Login
+      </button>
       <div className="divider text-secondary">OR</div>
       <div className="w-full flex flex-col">
         <button

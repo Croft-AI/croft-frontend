@@ -1,6 +1,10 @@
 import { auth, db } from "../base";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { signOut, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  signOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 export interface User {
   createdOn: Date;
@@ -67,6 +71,20 @@ export const googleSignInHandler = async (
   } catch (e) {
     throw new Error("There was a problem signing in with Google.");
   }
+};
+
+export const userLoginWithEmailPassword = async (
+  email: string,
+  password: string
+) => {
+  signInWithEmailAndPassword(auth, email, password)
+    .then(async (result) => {
+      const user = result.user;
+      await updateLastLogin(user.uid);
+    })
+    .catch((error) => {
+      throw new Error(error);
+    });
 };
 
 export const updateLastLogin = async (uid: string): Promise<void> => {

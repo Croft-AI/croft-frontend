@@ -13,7 +13,6 @@ export const signInWithGoogle = async (): Promise<void> => {
       if (isUserExists) {
         await updateLastLogin(uid);
       } else {
-        console.log("creating user...");
         await createUser(uid, {
           createdOn: new Date(),
           lastLogin: new Date(),

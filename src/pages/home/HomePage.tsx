@@ -5,10 +5,6 @@ const HomePage = () => {
   return (
     <>
       <NavBar />
-      Home
-      <button className="btn" onClick={logout}>
-        Logout
-      </button>
     </>
   );
 };

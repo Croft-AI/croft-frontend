@@ -1,6 +1,5 @@
 import React from "react";
 import PageTitle from "../../components/universal/labels/PageTitle";
-import SignUpContainer from "../../components/universal/login/SignUpContainer";
 import NavBar from "../../components/universal/nav/NavBar";
 
 const DashboardPage = () => {

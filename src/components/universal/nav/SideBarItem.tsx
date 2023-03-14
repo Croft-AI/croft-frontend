@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 interface ISideBarItem {
   isSelected: boolean;
   linkTo: string;
@@ -13,11 +14,11 @@ const SideBarItem: React.FC<ISideBarItem> = ({
     ? "bg-slate-200 hover:bg-base-300 active:bg-primary"
     : "";
   return (
-    <li>
-      <a className={`${selected}`} href={linkTo}>
-        {children}
-      </a>
-    </li>
+    <Link to={linkTo}>
+      <li>
+        <a className={`${selected}`}>{children}</a>
+      </li>
+    </Link>
   );
 };
 export default SideBarItem;

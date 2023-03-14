@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import SideBarItem from "./SideBarItem";
 import {
   IoAlbums,

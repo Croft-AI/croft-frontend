@@ -7,6 +7,7 @@ import {
   IoLogOut,
 } from "react-icons/io5";
 import { logout } from "../../../firebase/auth/userHandler";
+import { ReactComponent as CroftIcon } from "../../../assets/CroftIcon.svg";
 const NavBar = () => {
   return (
     <>

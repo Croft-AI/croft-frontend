@@ -13,6 +13,8 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import HomePage from "./pages/home/HomePage";
 import NavFrame from "../src/frames/NavFrame";
 import ImpressionTitle from "./pages/impression/ImpressionTitle";
+import ImpressionList from "./pages/impression/ImpressionList";
+import ImpressionListItem from "./pages/impression/ImpressionListItem";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,9 +28,26 @@ const router = createBrowserRouter([
         path: "impression/",
         element: (
           <>
-            <ImpressionTitle onButtonClick={() => console.log("fart")} />
-            <div id="detail">
-              <Outlet />
+            <div className="flex flex-col">
+              <ImpressionTitle onButtonClick={() => console.log("fart")} />
+              <div className="h-1/2">
+                <ImpressionList>
+                  <ImpressionListItem />
+                  <ImpressionListItem />
+                  <ImpressionListItem />
+                  <ImpressionListItem />
+                  <ImpressionListItem />
+                  <ImpressionListItem />
+                  <ImpressionListItem />
+                  <ImpressionListItem />
+                  <ImpressionListItem />
+                  <ImpressionListItem />
+                  <ImpressionListItem />
+                  <ImpressionListItem />
+                  <ImpressionListItem />
+                  <ImpressionListItem />
+                </ImpressionList>
+              </div>
             </div>
           </>
         ),

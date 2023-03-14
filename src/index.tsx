@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -11,18 +11,37 @@ import DashboardPage from "./pages/dashboard/Dashboard";
 import { FirebaseAuthWrapper } from "./firebase/auth/AuthContextWrapper";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import HomePage from "./pages/home/HomePage";
+import NavFrame from "../src/frames/NavFrame";
+import ImpressionTitle from "./pages/impression/ImpressionTitle";
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <ProtectedRoute>
-        <HomePage />
+        <NavFrame />
       </ProtectedRoute>
     ),
     children: [
       {
-        path: "impressions",
-        element: <>impressions</>,
+        path: "impression/",
+        element: (
+          <>
+            <ImpressionTitle onButtonClick={() => console.log("fart")} />
+            <div id="detail">
+              <Outlet />
+            </div>
+          </>
+        ),
+        children: [
+          {
+            path: ":id",
+            element: <>id</>,
+          },
+          {
+            path: "about",
+            element: <>id</>,
+          },
+        ],
       },
     ],
   },

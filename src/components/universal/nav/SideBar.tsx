@@ -6,6 +6,14 @@ import {
   IoHourglassOutline,
 } from "react-icons/io5";
 import { useLocation } from "react-router-dom";
+
+const sideBarContent = [
+  { icon: <IoAlbums />, name: "Dashboard", path: "/dashboard" },
+  { icon: <IoLibrary />, name: "Impressions", path: "/impression" },
+  { icon: <IoDocumentText />, name: "Results", path: "/result" },
+  { icon: <IoHourglassOutline />, name: "Schedules", path: "/schedule" },
+];
+
 const SideBar = () => {
   const { pathname } = useLocation();
 
@@ -14,28 +22,14 @@ const SideBar = () => {
       <div className="drawer-side">
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
         <ul className="menu p-2 w-48 bg-base-100 text-base-content">
-          <SideBarItem isSelected={pathname === "/"} linkTo="/">
-            <IoAlbums />
-            Dashboard
-          </SideBarItem>
-          <SideBarItem
-            isSelected={pathname === "/impressions"}
-            linkTo="/impressions"
-          >
-            <IoLibrary />
-            Impressions
-          </SideBarItem>
-          <SideBarItem isSelected={pathname === "/results"} linkTo="/results">
-            <IoDocumentText />
-            Results
-          </SideBarItem>
-          <SideBarItem
-            isSelected={pathname === "/schedules"}
-            linkTo="/schedules"
-          >
-            <IoHourglassOutline />
-            Schedules
-          </SideBarItem>
+          {sideBarContent.map((item) => (
+            <SideBarItem
+              isSelected={pathname.includes(item.path)}
+              linkTo={item.path}
+            >
+              {item.icon} {item.name}
+            </SideBarItem>
+          ))}
         </ul>
       </div>
     </div>

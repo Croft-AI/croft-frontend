@@ -1,8 +1,9 @@
 import { collection, addDoc, doc, getDoc } from "firebase/firestore";
+import { ImpressionConfigType } from "../../helpers/types/ImpressionType";
 import { db } from "../base";
 
 export interface Impression {
-  config: object;
+  config: ImpressionConfigType;
   createdBy: string;
   createdOn: Date;
   title: string;
@@ -27,8 +28,9 @@ export const getImpressionContent = async (id: string): Promise<Impression> => {
   try {
     const docRef = doc(db, "impression", id);
     const impressionDoc = await getDoc(docRef);
-    return impressionDoc as unknown as Impression;
+    return impressionDoc.data() as unknown as Impression;
   } catch (e) {
-    throw new Error(e);
+    console.error(e);
+    throw new Error("Unable to get impression data at this time!");
   }
 };

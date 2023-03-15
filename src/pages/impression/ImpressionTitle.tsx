@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
 import { createNewImpression } from "../../firebase/store/impressionHandler";
 import { randomName } from "../../helpers/randomNameGenerator/randomNameGenerator";
+import { ImpressionConfigType } from "../../helpers/types/ImpressionType";
 
 interface IImpressionTitle {
   onButtonClick: () => void;
@@ -15,11 +16,10 @@ const ImpressionTitle: React.FC<IImpressionTitle> = ({ onButtonClick }) => {
   const navigate = useNavigate();
   const auth = useAuth();
   const createImpressionRedirect = async () => {
-
     const docId = await createNewImpression({
       createdBy: auth as string,
       createdOn: new Date(),
-      config: {},
+      config: {} as ImpressionConfigType,
       title,
       description: "",
     });

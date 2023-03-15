@@ -38,7 +38,7 @@ const ImpressionBuildPage = () => {
   }, [impression]);
   return (
     <div className="flex-grow">
-      <div className="text-2xs text-base-300">
+      <div className="">
         <div className="text-2xs text-base-300 flex flex-row">
           <p className="ml-4 mb-2 flex-grow">id: {id}</p>
           <p className="ml-4 mb-2">
@@ -84,18 +84,96 @@ const ImpressionBuildPage = () => {
             <div className="divider"></div>
             <div className="my-4">
               <label>
-                <label className="label text-primary">Impression URL:</label>
+                <label className="label text-primary">Site URL:</label>
                 <input
-                  className="input input-bordered w-full text-primary"
+                  className="input input-bordered w-full text-primary border border-primary"
                   placeholder="https://www.example.com"
                 />
               </label>
+            </div>
+            <br></br>
+            <div className="w-full h-fit shadow ease-in duration-300 shadow-lg rounded-lg border border-2 p-4 flex flex-col gap-2">
+              <p className="font-bold">Add Item</p>
+              <div className="h-fit flex flex-row gap-2 gap-2 ">
+                <div className="border-r-2 w-full pr-4">
+                  <label className="label text-sm text-secondary">
+                    <span className="label-text">Item Name:</span>
+                  </label>
+                  <input
+                    type="text"
+                    className={"input input-bordered w-full mr-2 input-sm"}
+                    placeholder="Example: 'product_price'"
+                  />
+                  <label className="label text-sm text-secondary">
+                    <span className="label-text">
+                      CSS Selector / Selector Path
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    className={"input input-bordered w-full mr-2 input-sm"}
+                    placeholder="Example: div.className"
+                  />
+                </div>
+                <div className="w-full px-4 m-auto">
+                  <p className="text-sm font-bold">Attributes to Include</p>
+                  <table className="mt-4 w-full ">
+                    <tr>
+                      <td>href:</td>
+                      <td>
+                        <input
+                          type="checkbox"
+                          className="checkbox checkbox-primary"
+                        />
+                      </td>
+                      <td>id:</td>
+                      <td>
+                        <input
+                          type="checkbox"
+                          className="checkbox checkbox-primary"
+                        />
+                      </td>
+                      <td>class:</td>
+                      <td>
+                        <input
+                          type="checkbox"
+                          className="checkbox checkbox-primary"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>src:</td>
+                      <td>
+                        <input
+                          type="checkbox"
+                          className="checkbox checkbox-primary"
+                        />
+                      </td>
+                      <td>title:</td>
+                      <td>
+                        <input
+                          type="checkbox"
+                          className="checkbox checkbox-primary"
+                        />
+                      </td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <div className="flex flex-row gap-2">
+                <div className="flex-grow"></div>
+                <button className="btn btn-ghost">Clear</button>
+                <button className="btn">Confirm</button>
+              </div>
             </div>
             <div className="divider">
               <button className="btn btn-ghost hover:text-primary">
                 <IoAdd />
               </button>
             </div>
+            <br></br>
           </>
         ) : (
           <></>

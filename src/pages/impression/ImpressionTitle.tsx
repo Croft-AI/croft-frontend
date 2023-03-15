@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoAdd } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../firebase/auth/AuthContextWrapper";
+import { createNewImpression } from "../../firebase/store/impressionHandler";
+import { randomName } from "../../helpers/randomNameGenerator/randomNameGenerator";
 
 interface IImpressionTitle {
   onButtonClick: () => void;
 }
 
 const ImpressionTitle: React.FC<IImpressionTitle> = ({ onButtonClick }) => {
+  const [title, setTitle] = useState<string>(randomName().toUpperCase());
+  const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const auth = useAuth();
+  const createImpressionRedirect = async () => {
+
+    const docId = await createNewImpression({
+      createdBy: auth as string,
+      createdOn: new Date(),
+      config: {},
+      title,
+      description: "",
+    });
+    return navigate(`/impression/${docId}`);
+  };
   return (
     <>
       <div className="flex flex-row">
@@ -16,9 +35,43 @@ const ImpressionTitle: React.FC<IImpressionTitle> = ({ onButtonClick }) => {
             checkout some of our presets below.
           </p>
         </div>
-        <button className="btn btn-square m-auto">
+        <label htmlFor="my-modal-4" className="btn btn-square m-auto">
           <IoAdd className="w-6 h-6 text-white" />
-        </button>
+        </label>
+        <input
+          type="checkbox"
+          id="my-modal-4"
+          className="modal-toggle w-full"
+        />
+        <label htmlFor="my-modal-4" className="modal cursor-pointer">
+          <label className="modal-box relative" htmlFor="">
+            <h3 className="text-lg font-bold">Create an Impression</h3>
+            <p className="py-4 text-sm">
+              You will be redirected once confirmed is clicked!
+            </p>
+            <label className="label">
+              <label className="label-text text-sm text-secondary">
+                Rename Your Impression
+              </label>
+            </label>
+            <input
+              type="text"
+              placeholder="Impression Title"
+              className="input input-bordered w-full border-2 border-primary"
+              defaultValue={title}
+              onChange={(event) => setTitle(event.target.value)}
+            />
+            <div className="w-full flex flex-row mt-6">
+              <div className="flex-grow" />
+              <button
+                className="btn btn-primary"
+                onClick={createImpressionRedirect}
+              >
+                create
+              </button>
+            </div>
+          </label>
+        </label>
       </div>
       <div className="divider"></div>
     </>

@@ -3,11 +3,11 @@ import {
   Config,
   adjectives,
   colors,
-  starWars,
+  animals,
 } from "unique-names-generator";
 
 const customConfig: Config = {
-  dictionaries: [adjectives, colors, starWars],
+  dictionaries: [adjectives, colors, animals],
   separator: "-",
   length: 3,
 };

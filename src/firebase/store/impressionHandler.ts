@@ -1,4 +1,4 @@
-import { collection, addDoc, doc, getDoc } from "firebase/firestore";
+import { collection, addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { ImpressionConfigType } from "../../helpers/types/ImpressionType";
 import { db } from "../base";
 
@@ -32,5 +32,17 @@ export const getImpressionContent = async (id: string): Promise<Impression> => {
   } catch (e) {
     console.error(e);
     throw new Error("Unable to get impression data at this time!");
+  }
+};
+
+export const updateImpression = async (
+  id: string,
+  newImpression: Impression
+): Promise<void> => {
+  try {
+    const docRef = doc(db, "impression", id);
+    await updateDoc(docRef, { ...newImpression });
+  } catch {
+    throw new Error("There was a problem trying to save this impression");
   }
 };

@@ -15,6 +15,7 @@ import {
   updateImpression,
 } from "../../firebase/store/impressionHandler";
 import ImpressionItemAdder from "../impression/ImpressionItemAdder";
+import ImpressionConfigListItem from "./ImpressionConfigItemListItem";
 
 const ImpressionBuildPage = () => {
   const { id } = useParams();
@@ -27,9 +28,7 @@ const ImpressionBuildPage = () => {
   const saveOnChange = async () => {
     if (id === undefined && impression === undefined) return;
     setLoading(true);
-    console.log("saving...");
-    // await updateImpression(id as string, impression as Impression);
-    console.log(impression);
+    await updateImpression(id as string, impression as Impression);
     setSavedOnTime(new Date());
     setLoading(false);
   };
@@ -100,8 +99,15 @@ const ImpressionBuildPage = () => {
               <label>
                 <label className="label text-primary">Site URL:</label>
                 <input
+                  defaultValue={impression.config.url}
                   className="input input-bordered w-full text-primary border border-primary"
                   placeholder="https://www.example.com"
+                  onChange={(event) =>
+                    setImpression({
+                      ...impression,
+                      config: { ...impression.config, url: event.target.value },
+                    })
+                  }
                 />
               </label>
             </div>
@@ -122,6 +128,17 @@ const ImpressionBuildPage = () => {
               </button>
             </div>
             <br></br>
+            <>
+              {impression.config.items.map((item) => {
+                return (
+                  <ImpressionConfigListItem
+                    title={item.title}
+                    selector={item.selector}
+                    getAttributes={item.get_attributes}
+                  />
+                );
+              })}
+            </>
           </>
         ) : (
           <></>

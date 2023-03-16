@@ -19,7 +19,11 @@ const ImpressionTitle: React.FC<IImpressionTitle> = ({ onButtonClick }) => {
     const docId = await createNewImpression({
       createdBy: auth as string,
       createdOn: new Date(),
-      config: {} as ImpressionConfigType,
+      config: {
+        url: "",
+        wait_for_selector: "",
+        items: [],
+      } as ImpressionConfigType,
       title,
       description: "",
     });

@@ -5,6 +5,7 @@ export interface ImpressionConfigType {
 }
 
 export interface ImpressionConfigItemType {
+  title: string;
   selector: string;
   get_attributes: HTMLAttributes[];
 }

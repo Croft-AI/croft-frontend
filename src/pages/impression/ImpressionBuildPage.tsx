@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { IoAdd, IoDownload, IoPlay, IoSave } from "react-icons/io5";
+import {
+  IoAdd,
+  IoDownload,
+  IoPlay,
+  IoSave,
+  IoRemoveSharp,
+} from "react-icons/io5";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
@@ -8,6 +14,7 @@ import {
   Impression,
   updateImpression,
 } from "../../firebase/store/impressionHandler";
+import ImpressionItemAdder from "../impression/ImpressionItemAdder";
 
 const ImpressionBuildPage = () => {
   const { id } = useParams();
@@ -15,15 +22,22 @@ const ImpressionBuildPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [impression, setImpression] = useState<Impression | undefined>();
   const [savedOnTime, setSavedOnTime] = useState<Date | undefined>();
+  const [adderOpen, setAdderOpen] = useState<boolean>(false);
 
   const saveOnChange = async () => {
     if (id === undefined && impression === undefined) return;
     setLoading(true);
     console.log("saving...");
-    await updateImpression(id as string, impression as Impression);
+    // await updateImpression(id as string, impression as Impression);
+    console.log(impression);
     setSavedOnTime(new Date());
     setLoading(false);
   };
+
+  const onAdderConfirm = () => {
+    setAdderOpen(false);
+  };
+
   useEffect(() => {
     const loadData = async () => {
       const imp = await getImpressionContent(id as string);
@@ -92,84 +106,18 @@ const ImpressionBuildPage = () => {
               </label>
             </div>
             <br></br>
-            <div className="w-full h-fit shadow ease-in duration-300 shadow-lg rounded-lg border border-2 p-4 flex flex-col gap-2">
-              <p className="font-bold">Add Item</p>
-              <div className="h-fit flex flex-row gap-2 gap-2 ">
-                <div className="border-r-2 w-full pr-4">
-                  <label className="label text-sm text-secondary">
-                    <span className="label-text">Item Name:</span>
-                  </label>
-                  <input
-                    type="text"
-                    className={"input input-bordered w-full mr-2 input-sm"}
-                    placeholder="Example: 'product_price'"
-                  />
-                  <label className="label text-sm text-secondary">
-                    <span className="label-text">
-                      CSS Selector / Selector Path
-                    </span>
-                  </label>
-                  <input
-                    type="text"
-                    className={"input input-bordered w-full mr-2 input-sm"}
-                    placeholder="Example: div.className"
-                  />
-                </div>
-                <div className="w-full px-4 m-auto">
-                  <p className="text-sm font-bold">Attributes to Include</p>
-                  <table className="mt-4 w-full ">
-                    <tr>
-                      <td>href:</td>
-                      <td>
-                        <input
-                          type="checkbox"
-                          className="checkbox checkbox-primary"
-                        />
-                      </td>
-                      <td>id:</td>
-                      <td>
-                        <input
-                          type="checkbox"
-                          className="checkbox checkbox-primary"
-                        />
-                      </td>
-                      <td>class:</td>
-                      <td>
-                        <input
-                          type="checkbox"
-                          className="checkbox checkbox-primary"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>src:</td>
-                      <td>
-                        <input
-                          type="checkbox"
-                          className="checkbox checkbox-primary"
-                        />
-                      </td>
-                      <td>title:</td>
-                      <td>
-                        <input
-                          type="checkbox"
-                          className="checkbox checkbox-primary"
-                        />
-                      </td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </table>
-                </div>
-              </div>
-              <div className="flex flex-row gap-2">
-                <div className="flex-grow"></div>
-                <button className="btn btn-ghost">Clear</button>
-                <button className="btn">Confirm</button>
-              </div>
-            </div>
-            <div className="divider">
-              <button className="btn btn-ghost hover:text-primary">
+            <ImpressionItemAdder
+              isVisible={adderOpen}
+              onCancel={() => setAdderOpen(false)}
+              onConfirm={onAdderConfirm}
+              impression={impression}
+              setImpression={setImpression}
+            />
+            <div className={`divider ${adderOpen ? "hidden" : ""}`}>
+              <button
+                className="btn btn-ghost hover:text-primary"
+                onClick={() => setAdderOpen(true)}
+              >
                 <IoAdd />
               </button>
             </div>

@@ -16,6 +16,7 @@ import {
 } from "../../firebase/store/impressionHandler";
 import ImpressionItemAdder from "../impression/ImpressionItemAdder";
 import ImpressionConfigListItem from "./ImpressionConfigItemListItem";
+import { ImpressionConfigItemType } from "../../helpers/types/ImpressionType";
 
 const ImpressionBuildPage = () => {
   const { id } = useParams();
@@ -32,7 +33,18 @@ const ImpressionBuildPage = () => {
     setSavedOnTime(new Date());
     setLoading(false);
   };
-
+  const deleteItem = (index: number) => {
+    if (impression === undefined) return;
+    let tempArr = impression.config.items;
+    tempArr.splice(index, 1);
+    setImpression({
+      ...impression,
+      config: {
+        ...impression.config,
+        items: tempArr,
+      },
+    });
+  };
   const onAdderConfirm = () => {
     setAdderOpen(false);
   };
@@ -129,9 +141,10 @@ const ImpressionBuildPage = () => {
             </div>
             <br></br>
             <>
-              {impression.config.items.map((item) => {
+              {impression.config.items.map((item, key) => {
                 return (
                   <ImpressionConfigListItem
+                    onDeleteClick={() => deleteItem(key)}
                     title={item.title}
                     selector={item.selector}
                     getAttributes={item.get_attributes}

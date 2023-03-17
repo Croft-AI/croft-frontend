@@ -1,4 +1,13 @@
-import { collection, addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  doc,
+  getDoc,
+  updateDoc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { ImpressionConfigType } from "../../helpers/types/ImpressionType";
 import { db } from "../base";
 
@@ -9,6 +18,16 @@ export interface Impression {
   title: string;
   description: string;
 }
+
+export interface ImpressionRead {
+  id: string;
+  config: ImpressionConfigType;
+  createdBy: string;
+  createdOn: Date;
+  title: string;
+  description: string;
+}
+
 export const createNewImpression = async (
   impressionTemplate: Impression
 ): Promise<string> => {
@@ -44,5 +63,24 @@ export const updateImpression = async (
     await updateDoc(docRef, { ...newImpression });
   } catch {
     throw new Error("There was a problem trying to save this impression");
+  }
+};
+
+export const getImpressions = async (
+  uid: string
+): Promise<ImpressionRead[]> => {
+  try {
+    const impressionRef = collection(db, "impression");
+    const q = query(impressionRef, where("createdBy", "==", uid));
+    const querySnapshot = await getDocs(q);
+    let impressions: ImpressionRead[] = [];
+    querySnapshot.forEach((doc) =>
+      impressions.push({ id: doc.id, ...doc.data() } as ImpressionRead)
+    );
+    return impressions;
+  } catch {
+    throw new Error(
+      "There was a problem with gettimg impressions at this moment!"
+    );
   }
 };

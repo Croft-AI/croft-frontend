@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoAdd } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
-import { createNewImpression } from "../../firebase/store/impressionHandler";
+import {
+  createNewImpression,
+  getImpressions,
+  ImpressionRead,
+} from "../../firebase/store/impressionHandler";
 import { randomName } from "../../helpers/randomNameGenerator/randomNameGenerator";
 import { ImpressionConfigType } from "../../helpers/types/ImpressionType";
 
@@ -13,6 +17,7 @@ interface IImpressionTitle {
 const ImpressionTitle: React.FC<IImpressionTitle> = ({ onButtonClick }) => {
   const [title, setTitle] = useState<string>(randomName().toUpperCase());
   const [loading, setLoading] = useState<boolean>(false);
+  const [impressions, setImpressions] = useState<ImpressionRead[]>();
   const navigate = useNavigate();
   const auth = useAuth();
   const createImpressionRedirect = async () => {
@@ -29,6 +34,7 @@ const ImpressionTitle: React.FC<IImpressionTitle> = ({ onButtonClick }) => {
     });
     return navigate(`/impression/${docId}`);
   };
+
   return (
     <>
       <div className="flex flex-row">

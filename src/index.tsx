@@ -16,6 +16,7 @@ import ImpressionTitle from "./pages/impression/ImpressionTitle";
 import ImpressionList from "./pages/impression/ImpressionList";
 import ImpressionListItem from "./pages/impression/ImpressionListItem";
 import ImpressionBuildPage from "./pages/impression/ImpressionBuildPage";
+import ImpressionPage from "./pages/impression/ImpressionPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,31 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/impression",
-        element: (
-          <>
-            <div className="flex flex-col">
-              <ImpressionTitle onButtonClick={() => console.log("fart")} />
-              <div className="h-96">
-                <ImpressionList>
-                  <ImpressionListItem />
-                  <ImpressionListItem />
-                  <ImpressionListItem />
-                  <ImpressionListItem />
-                  <ImpressionListItem />
-                  <ImpressionListItem />
-                  <ImpressionListItem />
-                  <ImpressionListItem />
-                  <ImpressionListItem />
-                  <ImpressionListItem />
-                  <ImpressionListItem />
-                  <ImpressionListItem />
-                  <ImpressionListItem />
-                  <ImpressionListItem />
-                </ImpressionList>
-              </div>
-            </div>
-          </>
-        ),
+        element: <ImpressionPage />,
       },
     ],
   },

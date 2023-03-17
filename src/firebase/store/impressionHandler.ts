@@ -7,6 +7,7 @@ import {
   query,
   where,
   getDocs,
+  Timestamp,
 } from "firebase/firestore";
 import { ImpressionConfigType } from "../../helpers/types/ImpressionType";
 import { db } from "../base";
@@ -23,7 +24,7 @@ export interface ImpressionRead {
   id: string;
   config: ImpressionConfigType;
   createdBy: string;
-  createdOn: Date;
+  createdOn: Timestamp;
   title: string;
   description: string;
 }

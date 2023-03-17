@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
 import {
@@ -17,7 +18,7 @@ const ImpressionPage = () => {
     };
     loadImpressions();
   }, []);
-
+  useEffect(() => console.log(impressions), [impressions]);
   return (
     <>
       <div className="flex flex-col">
@@ -29,7 +30,7 @@ const ImpressionPage = () => {
                 <ImpressionListItem
                   path={`./${item.id}`}
                   title={item.title}
-                  createdOn={item.createdOn}
+                  createdOn={item.createdOn.toDate()}
                 />
               ))
             ) : (

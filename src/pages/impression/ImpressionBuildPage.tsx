@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from "react";
-import {
-  IoAdd,
-  IoDownload,
-  IoPlay,
-  IoSave,
-  IoRemoveSharp,
-} from "react-icons/io5";
+import { useEffect, useState } from "react";
+import { IoAdd, IoPlay, IoChevronBackOutline } from "react-icons/io5";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useParams } from "react-router-dom";
-import { useAuth } from "../../firebase/auth/AuthContextWrapper";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getImpressionContent,
   Impression,
@@ -16,11 +9,10 @@ import {
 } from "../../firebase/store/impressionHandler";
 import ImpressionItemAdder from "../impression/ImpressionItemAdder";
 import ImpressionConfigListItem from "./ImpressionConfigItemListItem";
-import { ImpressionConfigItemType } from "../../helpers/types/ImpressionType";
 
 const ImpressionBuildPage = () => {
   const { id } = useParams();
-  const auth = useAuth();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
   const [impression, setImpression] = useState<Impression | undefined>();
   const [savedOnTime, setSavedOnTime] = useState<Date | undefined>();
@@ -64,9 +56,15 @@ const ImpressionBuildPage = () => {
   return (
     <div className="flex-grow">
       <div className="">
-        <div className="text-2xs text-base-300 flex flex-row">
-          <p className="ml-4 mb-2 flex-grow">id: {id}</p>
-          <p className="ml-4 mb-2">
+        <div className="text-2xs flex flex-row">
+          <button
+            className="btn btn-ghost m-auto mr-2"
+            onClick={() => navigate(-1)}
+          >
+            <IoChevronBackOutline />
+          </button>
+          <p className="ml-4 mb-2 flex-grow text-base-300">id: {id}</p>
+          <p className="ml-4 mb-2 text-base-300">
             Last Saved On: {savedOnTime?.getUTCDate()}/
             {savedOnTime?.getUTCMonth()}/{savedOnTime?.getUTCFullYear()}{" "}
             {savedOnTime?.getHours()}:{savedOnTime?.getMinutes()}:

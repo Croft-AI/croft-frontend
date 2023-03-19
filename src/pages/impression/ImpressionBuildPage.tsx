@@ -61,10 +61,10 @@ const ImpressionBuildPage = () => {
             className="btn btn-ghost m-auto mr-2"
             onClick={() => navigate(-1)}
           >
-            <IoChevronBackOutline />
+            <IoChevronBackOutline className="w-6 h-6" />
           </button>
-          <p className="ml-4 mb-2 flex-grow text-base-300">id: {id}</p>
-          <p className="ml-4 mb-2 text-base-300">
+          <p className="flex-grow ml-4 mb-2 text-base-300 m-auto text-right">
+            id: {id} <br></br>
             Last Saved On: {savedOnTime?.getUTCDate()}/
             {savedOnTime?.getUTCMonth()}/{savedOnTime?.getUTCFullYear()}{" "}
             {savedOnTime?.getHours()}:{savedOnTime?.getMinutes()}:

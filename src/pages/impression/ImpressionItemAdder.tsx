@@ -29,7 +29,7 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
         items: [
           ...impression.config.items,
           {
-            selector: selector as string,
+            css_selector: selector as string,
             title: title as string,
             get_attributes: attributes as HTMLAttributes[],
           },

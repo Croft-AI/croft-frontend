@@ -56,9 +56,7 @@ const ImpressionTitle: React.FC<IImpressionTitle> = ({ onButtonClick }) => {
         <label htmlFor="my-modal-4" className="modal cursor-pointer">
           <label className="modal-box relative" htmlFor="">
             <h3 className="text-lg font-bold">Create an Impression</h3>
-            <p className="py-4 text-sm">
-              You will be redirected once confirmed is clicked!
-            </p>
+            <p className="py-4 text-sm">Start traversing the web!</p>
             <label className="label">
               <label className="label-text text-sm text-secondary">
                 Rename Your Impression

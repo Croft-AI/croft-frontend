@@ -9,6 +9,8 @@ import {
 } from "../../firebase/store/impressionHandler";
 import ImpressionItemAdder from "../impression/ImpressionItemAdder";
 import ImpressionConfigListItem from "./ImpressionConfigItemListItem";
+import { createResultDoc } from "../../firebase/store/resultHandler";
+import { postCroftScrapeConfig } from "../../handler/croftSubHandler";
 
 const ImpressionBuildPage = () => {
   const { id } = useParams();
@@ -41,6 +43,23 @@ const ImpressionBuildPage = () => {
     setAdderOpen(false);
   };
 
+  const onButtonRun = async () => {
+    try {
+      const result_doc_id = await createResultDoc();
+      await postCroftScrapeConfig({
+        impression_id: id as string,
+        result_doc_id,
+        ...(impression as Impression).config,
+      });
+      console.log({
+        impression_id: id as string,
+        result_doc_id,
+        ...(impression as Impression).config,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
   useEffect(() => {
     const loadData = async () => {
       const imp = await getImpressionContent(id as string);
@@ -87,7 +106,10 @@ const ImpressionBuildPage = () => {
                 {loading ? (
                   <AiOutlineLoading3Quarters className="animate-spin w-10 h-10 m-auto" />
                 ) : (
-                  <button className="btn btn-circle m-auto">
+                  <button
+                    className="btn btn-circle m-auto"
+                    onClick={onButtonRun}
+                  >
                     <IoPlay />
                   </button>
                 )}
@@ -144,7 +166,7 @@ const ImpressionBuildPage = () => {
                   <ImpressionConfigListItem
                     onDeleteClick={() => deleteItem(key)}
                     title={item.title}
-                    selector={item.selector}
+                    selector={item.css_selector}
                     getAttributes={item.get_attributes}
                   />
                 );

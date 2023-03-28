@@ -51,11 +51,8 @@ const ImpressionBuildPage = () => {
         result_doc_id,
         ...(impression as Impression).config,
       });
-      console.log({
-        impression_id: id as string,
-        result_doc_id,
-        ...(impression as Impression).config,
-      });
+
+      navigate(`/result/${result_doc_id}`);
     } catch (e) {
       console.error(e);
     }

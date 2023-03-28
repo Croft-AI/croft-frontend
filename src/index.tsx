@@ -17,6 +17,7 @@ import ImpressionList from "./pages/impression/ImpressionList";
 import ImpressionListItem from "./pages/impression/ImpressionListItem";
 import ImpressionBuildPage from "./pages/impression/ImpressionBuildPage";
 import ImpressionPage from "./pages/impression/ImpressionPage";
+import ResultDisplayPage from "./pages/result/ResultDisplayPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/impression",
         element: <ImpressionPage />,
+      },
+      {
+        path: "/result/:id",
+        element: <ResultDisplayPage />,
       },
     ],
   },

@@ -1,11 +1,11 @@
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { db } from "../base";
 
 //scrapeStatus 1: successful, 2: in progress, 3: failed
 export interface ScrapeResult {
   impressionId: string;
   result: object | [];
-  scrapeDateTime: Date;
+  scrapeDatetime: Timestamp;
   scrapeDuration: number;
   status: ScrapeStatusCode;
 }

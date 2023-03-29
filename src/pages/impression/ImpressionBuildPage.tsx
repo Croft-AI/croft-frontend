@@ -50,6 +50,7 @@ const ImpressionBuildPage = () => {
         impression_id: id as string,
         result_doc_id,
         ...(impression as Impression).config,
+        wait_for_selector: impression?.config.items[0].css_selector,
       });
 
       navigate(`/result/${result_doc_id}`);

@@ -12,9 +12,11 @@ export const postCroftScrapeConfig = async (
   croftScrapeConfig: CroftSubPostConfig
 ) => {
   try {
+
     const body = {
-      configs: [{ ...croftScrapeConfig, wait_for_selector: "html" }],
+      configs: [{ ...croftScrapeConfig }],
     };
+    
     console.log(body);
     await axios.post(
       process.env.REACT_APP_CROFT_SCRAPE_ENDPOINT as string,

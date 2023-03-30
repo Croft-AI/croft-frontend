@@ -9,7 +9,9 @@ interface IProtectedRoute {
 const ProtectedRoute: React.FC<IProtectedRoute> = ({ children }) => {
   const auth = useAuth();
   return (
-    <>{auth !== undefined ? <>{children}</> : <Navigate to={"/login"} />}</>
+    <div className="">
+      {auth !== undefined ? <>{children}</> : <Navigate to={"/login"} />}
+    </div>
   );
 };
 

@@ -8,10 +8,10 @@ const HomePage = () => {
   return (
     <div className="flex flex-col h-screen">
       <NavBar />
-      <div className="w-full flex flex-row scroll-none flex-grow">
+      <div className="grid grid-cols-9 scroll-none flex-grow overflow-y-auto ">
         <SideBar />
         <div
-          className="w-full p-8 flex-grow flex flex-col font-mono"
+          className="p-6 col-span-8 flex-grow flex flex-col font-mono"
           id="detail"
         >
           <Outlet />

@@ -12,21 +12,21 @@ const ResultTable: React.FC<IResultTable> = ({ data, setTable }) => {
     setTable(newTable);
   };
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto  table-wrp block max-h-96">
       {/* <table className="table-auto text-xs"> */}
       <Table
-        className="font-mono select-none"
+        className="font-mono select-none w-full"
         striped
         highlightOnHover
         withBorder
         withColumnBorders
       >
-        <thead>
+        <thead className="sticky top-0 bg-white border border-1">
           {data[0].map((item) => (
-            <th>{item}</th>
+            <th className="p-2 hover:bg-slate-200">{item}</th>
           ))}
         </thead>
-        <tbody>
+        <tbody className="h-96 overflow-y-auto">
           {data.slice(1).map((item, rowNo) => {
             return (
               <tr>

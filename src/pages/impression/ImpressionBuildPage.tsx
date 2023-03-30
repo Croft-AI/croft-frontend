@@ -71,110 +71,105 @@ const ImpressionBuildPage = () => {
     return () => clearTimeout(delayedSave);
   }, [impression]);
   return (
-    <div className="flex-grow">
-      <div className="">
-        <div className="text-2xs flex flex-row">
-          <button
-            className="btn btn-ghost m-auto mr-2"
-            onClick={() => navigate(-1)}
-          >
-            <IoChevronBackOutline className="w-6 h-6" />
-          </button>
-          <p className="flex-grow ml-4 mb-2 text-base-300 m-auto text-right">
-            id: {id} <br></br>
-            Last Saved On: {savedOnTime?.getUTCDate()}/
-            {savedOnTime?.getUTCMonth()}/{savedOnTime?.getUTCFullYear()}{" "}
-            {savedOnTime?.getHours()}:{savedOnTime?.getMinutes()}:
-            {savedOnTime?.getSeconds()}
-          </p>
-        </div>
-        {impression !== undefined ? (
-          <>
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-row">
-                <input
-                  type="text"
-                  placeholder="Impression Title"
-                  className="input input-ghost w-full focus:bg-base-200 text-2xl h-16 text-primary hover:bg-slate-200 mr-2"
-                  defaultValue={impression.title}
-                  onChange={(event) => {
-                    setImpression({ ...impression, title: event.target.value });
-                  }}
-                />
-                {loading ? (
-                  <AiOutlineLoading3Quarters className="animate-spin w-10 h-10 m-auto" />
-                ) : (
-                  <button
-                    className="btn btn-circle m-auto"
-                    onClick={onButtonRun}
-                  >
-                    <IoPlay />
-                  </button>
-                )}
-              </div>
-              <textarea
-                className="textarea textarea-ghost focus:bg-base-200 text-primary hover:bg-slate-200 h-16"
-                placeholder="Impression Description"
-                defaultValue={impression.description}
+    <div className="grow-0">
+      <div className="text-2xs flex flex-row">
+        <button
+          className="btn btn-ghost m-auto mr-2 btn-sm"
+          onClick={() => navigate(-1)}
+        >
+          <IoChevronBackOutline className="w-6 h-6" />
+        </button>
+        <p className="grow ml-4 mb-2 text-base-300 m-auto text-right">
+          id: {id} <br></br>
+          Last Saved On: {savedOnTime?.getUTCDate()}/
+          {savedOnTime?.getUTCMonth()}/{savedOnTime?.getUTCFullYear()}{" "}
+          {savedOnTime?.getHours()}:{savedOnTime?.getMinutes()}:
+          {savedOnTime?.getSeconds()}
+        </p>
+      </div>
+      {impression !== undefined ? (
+        <div className="">
+          <div className="flex flex-col gap-2 grow">
+            <div className="flex flex-row ">
+              <input
+                type="text"
+                placeholder="Impression Title"
+                className="input input-ghost w-full focus:bg-base-200 text-2xl h-16 text-primary hover:bg-slate-200 mr-2"
+                defaultValue={impression.title}
                 onChange={(event) => {
+                  setImpression({ ...impression, title: event.target.value });
+                }}
+              />
+              {loading ? (
+                <AiOutlineLoading3Quarters className="animate-spin w-10 h-10 m-auto" />
+              ) : (
+                <button className="btn btn-circle m-auto" onClick={onButtonRun}>
+                  <IoPlay />
+                </button>
+              )}
+            </div>
+            <textarea
+              className="textarea textarea-ghost focus:bg-base-200 text-primary hover:bg-slate-200 h-16"
+              placeholder="Impression Description"
+              defaultValue={impression.description}
+              onChange={(event) => {
+                setImpression({
+                  ...impression,
+                  description: event.target.value,
+                });
+              }}
+            ></textarea>
+          </div>
+          <div className="divider"></div>
+          <div className="my-4">
+            <label>
+              <label className="label text-primary">Site URL:</label>
+              <input
+                defaultValue={impression.config.url}
+                className="input input-bordered w-full text-primary border border-primary"
+                placeholder="https://www.example.com"
+                onChange={(event) =>
                   setImpression({
                     ...impression,
-                    description: event.target.value,
-                  });
-                }}
-              ></textarea>
-            </div>
-            <div className="divider"></div>
-            <div className="my-4">
-              <label>
-                <label className="label text-primary">Site URL:</label>
-                <input
-                  defaultValue={impression.config.url}
-                  className="input input-bordered w-full text-primary border border-primary"
-                  placeholder="https://www.example.com"
-                  onChange={(event) =>
-                    setImpression({
-                      ...impression,
-                      config: { ...impression.config, url: event.target.value },
-                    })
-                  }
+                    config: { ...impression.config, url: event.target.value },
+                  })
+                }
+              />
+            </label>
+          </div>
+          <br></br>
+          <ImpressionItemAdder
+            isVisible={adderOpen}
+            onCancel={() => setAdderOpen(false)}
+            onConfirm={onAdderConfirm}
+            impression={impression}
+            setImpression={setImpression}
+          />
+          <div className={`divider ${adderOpen ? "hidden" : ""}`}>
+            <button
+              className="btn btn-ghost hover:text-primary"
+              onClick={() => setAdderOpen(true)}
+            >
+              <IoAdd />
+            </button>
+          </div>
+          <br></br>
+          <>
+            {impression.config.items.map((item, key) => {
+              return (
+                <ImpressionConfigListItem
+                  onDeleteClick={() => deleteItem(key)}
+                  title={item.title}
+                  selector={item.css_selector}
+                  getAttributes={item.get_attributes}
                 />
-              </label>
-            </div>
-            <br></br>
-            <ImpressionItemAdder
-              isVisible={adderOpen}
-              onCancel={() => setAdderOpen(false)}
-              onConfirm={onAdderConfirm}
-              impression={impression}
-              setImpression={setImpression}
-            />
-            <div className={`divider ${adderOpen ? "hidden" : ""}`}>
-              <button
-                className="btn btn-ghost hover:text-primary"
-                onClick={() => setAdderOpen(true)}
-              >
-                <IoAdd />
-              </button>
-            </div>
-            <br></br>
-            <>
-              {impression.config.items.map((item, key) => {
-                return (
-                  <ImpressionConfigListItem
-                    onDeleteClick={() => deleteItem(key)}
-                    title={item.title}
-                    selector={item.css_selector}
-                    getAttributes={item.get_attributes}
-                  />
-                );
-              })}
-            </>
+              );
+            })}
           </>
-        ) : (
-          <></>
-        )}
-      </div>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

@@ -21,7 +21,7 @@ const SideBar = () => {
     <div className="font-mono border-r-2">
       <div className="drawer-side">
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-        <ul className="menu p-2 w-48 bg-base-100 text-base-content">
+        <ul className="menu p-2 w-full bg-base-100 text-base-content">
           {sideBarContent.map((item) => (
             <SideBarItem
               isSelected={pathname.includes(item.path)}

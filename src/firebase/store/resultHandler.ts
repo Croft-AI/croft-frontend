@@ -1,4 +1,12 @@
-import { addDoc, collection, Timestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  limit,
+  query,
+  Timestamp,
+  where,
+} from "firebase/firestore";
 import { db } from "../base";
 
 //scrapeStatus 1: successful, 2: in progress, 3: failed
@@ -23,5 +31,28 @@ export const createResultDoc = async (): Promise<string> => {
   } catch (e) {
     console.error(e);
     throw new Error("There was an error creating a results page!");
+  }
+};
+
+export const getPaginateResult = async (
+  impressionId: string,
+  noOfPage: number
+): Promise<ScrapeResult[]> => {
+  try {
+    const impressionRef = collection(db, "result");
+    const q = query(
+      impressionRef,
+      where("impressionId", "==", impressionId),
+      limit(noOfPage)
+    );
+    const querySnapshot = await getDocs(q);
+    let scrapeResults: ScrapeResult[] = [];
+    querySnapshot.forEach((doc) =>
+      scrapeResults.push(doc.data() as ScrapeResult)
+    );
+    return scrapeResults;
+  } catch (e) {
+    console.error(e);
+    throw new Error("There was an error with getting results.");
   }
 };

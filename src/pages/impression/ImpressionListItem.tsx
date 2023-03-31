@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { IoEllipsisVertical, IoTrashBin } from "react-icons/io5";
+import { Link, useNavigate } from "react-router-dom";
 
 interface IImpressionListItem {
   path: string;
@@ -11,9 +12,10 @@ const ImpressionListItem: React.FC<IImpressionListItem> = ({
   title,
   createdOn,
 }) => {
+  const navigate = useNavigate();
   return (
-    <Link to={path}>
-      <div className="w-full h-14 flex flex-row bg-base-100 p-4 border border-1 hover:bg-base-200 active:bg-base-300">
+    <div onDoubleClick={() => navigate(path)}>
+      <div className="w-full h-14 flex flex-row gap-2 bg-base-100 p-4 border border-1 hover:bg-base-200 active:bg-base-300">
         <div className="flex-grow">
           <p>{title}</p>
         </div>
@@ -23,8 +25,25 @@ const ImpressionListItem: React.FC<IImpressionListItem> = ({
             {createdOn?.getFullYear()}
           </p>
         </div>
+        <div className="flex">
+          <div className="dropdown dropdown-end">
+            <button tabIndex={0} className="btn btn-ghost m-auto btn-sm ">
+              <IoEllipsisVertical className="text-base-300" />
+            </button>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-36"
+            >
+              <li>
+                <a className="text-red-400 active:bg-red-200">
+                  <IoTrashBin /> Delete
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </Link>
+    </div>
   );
 };
 export default ImpressionListItem;

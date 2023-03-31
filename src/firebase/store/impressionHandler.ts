@@ -8,6 +8,7 @@ import {
   where,
   getDocs,
   Timestamp,
+  deleteDoc,
 } from "firebase/firestore";
 import { ImpressionConfigType } from "../../helpers/types/ImpressionType";
 import { db } from "../base";
@@ -83,5 +84,14 @@ export const getImpressions = async (
     throw new Error(
       "There was a problem with gettimg impressions at this moment!"
     );
+  }
+};
+
+export const deleteImpression = async (impressionId: string): Promise<void> => {
+  try {
+    await deleteDoc(doc(db, "impression", impressionId));
+  } catch (e) {
+    console.error(e);
+    throw new Error("There was an error deleting impression");
   }
 };

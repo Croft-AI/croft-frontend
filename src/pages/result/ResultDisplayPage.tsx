@@ -56,7 +56,7 @@ const ResultDisplayPage = () => {
 
   return (
     <div className="flex-grow">
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-row gap-4 mb-4">
         <button className="btn btn-ghost btn-sm" onClick={() => navigate(-1)}>
           <IoChevronBack className="w-6 h-6" />
         </button>
@@ -68,17 +68,19 @@ const ResultDisplayPage = () => {
         </p>
 
         {table !== undefined ? (
-          <span className="btn-group m-auto">
-            <button className="btn btn-ghost">
-              <IoTerminal className="w-6 h-6" />
-            </button>
-            <button
-              className="btn btn-ghost"
-              onClick={() => downloadCSV("test", table)}
-            >
-              <IoDownload className="w-6 h-6" />
-            </button>
-          </span>
+          <button
+            className="btn btn-ghost m-auto"
+            onClick={() =>
+              downloadCSV(
+                `croft-scrape-${new Date().getDate()}-${new Date().getMonth()}-${new Date().getFullYear()}-${
+                  data?.impressionId
+                }-${id as string}`,
+                table
+              )
+            }
+          >
+            <IoDownload className="w-6 h-6" />
+          </button>
         ) : (
           <></>
         )}

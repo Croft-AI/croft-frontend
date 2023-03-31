@@ -16,7 +16,7 @@ const SideBarItem: React.FC<ISideBarItem> = ({
   return (
     <Link to={linkTo}>
       <li>
-        <a className={`w-full truncate ${selected}`}>{children}</a>
+        <a className={`btn btn-ghost truncate ${selected}`}>{children}</a>
       </li>
     </Link>
   );

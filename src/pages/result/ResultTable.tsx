@@ -26,16 +26,16 @@ const ResultTable: React.FC<IResultTable> = ({ data, setTable }) => {
             <th className="p-2 hover:bg-slate-200">{item}</th>
           ))}
         </thead>
-        <tbody className="h-96 overflow-y-auto">
-          {data.slice(1).map((item, rowNo) => {
+        <tbody className="h-96 overflow-y-auto overflow-x-hidden">
+          {data.slice(1).map((item, colNo) => {
             return (
               <tr>
-                {item.map((dataItem, colNo) => {
+                {item.map((dataItem, rowNo) => {
                   return (
                     <td>
                       <input
                         onChange={(event) =>
-                          onEditRow(colNo, rowNo, event.target.value)
+                          onEditRow(colNo + 1, rowNo, event.target.value)
                         }
                         defaultValue={dataItem}
                         className="w-full h-full input input-ghost truncate rounded-none"

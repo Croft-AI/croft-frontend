@@ -73,10 +73,7 @@ const ImpressionBuildPage = () => {
   return (
     <div className="grow-0">
       <div className="text-2xs flex flex-row">
-        <button
-          className="btn btn-ghost m-auto mr-2 btn-sm"
-          onClick={() => navigate(-1)}
-        >
+        <button className="btn btn-ghost btn-sm" onClick={() => navigate(-1)}>
           <IoChevronBackOutline className="w-6 h-6" />
         </button>
         <p className="grow ml-4 mb-2 text-base-300 m-auto text-right">

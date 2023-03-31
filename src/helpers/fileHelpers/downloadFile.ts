@@ -13,7 +13,7 @@ export const downloadCSV = (name: string, twoDArray: string[][]) => {
   var link = document.createElement("a");
   link.setAttribute("href", encodedUri);
   link.style.display = "none";
-  link.setAttribute("download", "myCSV.csv"); //change it to give your own name
+  link.setAttribute("download", `${name}.csv`); //change it to give your own name
   link.innerHTML = "Click Here to download";
   document.body.appendChild(link); // Required for FF
 

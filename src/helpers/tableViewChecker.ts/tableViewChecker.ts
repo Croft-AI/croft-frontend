@@ -21,8 +21,20 @@ export const makeOneTable = (result: any): any[] => {
 
 export const areHeadersSame = (result: object[]): boolean => {
   if (result.length === 0) return false;
-  const firstHeader = Object.keys(result[0]);
-  return result.every((item) => Object.keys(item) === firstHeader);
+  const firstHeader = Object.keys(result[0]).sort();
+  return result.every((item) => Object.keys(item).sort() === firstHeader);
+};
+
+export const convertFromArrObjToTwoDArray = (result: object[]) => {
+  // if (!areHeadersSame(result)) return;
+  let keys = Object.keys(result[0]).sort();
+  let retArr = [[...keys]];
+  for (let row of result) {
+    let currRow: string[] = [];
+    keys.forEach((item) => currRow.push((row as any)[item]));
+    retArr.push(currRow);
+  }
+  return retArr;
 };
 
 export const convertToTwoDArray = (result: object): string[][] | undefined => {

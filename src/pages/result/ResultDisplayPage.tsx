@@ -7,6 +7,7 @@ import {
   ScrapeStatusCode,
 } from "../../firebase/store/resultHandler";
 import {
+  convertFromArrObjToTwoDArray,
   convertToTwoDArray,
   isOneTable,
   makeOneTable,
@@ -44,15 +45,39 @@ const ResultDisplayPage = () => {
   const { id } = useParams();
   const [scrapeStatus, setScrapeStatus] = useState<ScrapeStatusCode>(2);
   const [table, setTable] = useState<string[][]>();
+  const [multiTable, setMultiTable] = useState<object | undefined>();
+  const [multiTableSelect, setMultiTableSelect] = useState<number>(0);
   const [data, setData] = useState<ScrapeResult>();
 
   useEffect(() => {
     onSnapshot(doc(db, "result", id as string), (doc) => {
-      setData(doc.data() as ScrapeResult);
-      setScrapeStatus((doc.data() as ScrapeResult).status);
-      setTable(convertToTwoDArray((doc.data() as ScrapeResult).result));
+      const scrapeResult = doc.data() as ScrapeResult;
+      setData(scrapeResult);
+      setScrapeStatus(scrapeResult.status);
+      console.log(scrapeResult);
+      if (isOneTable(scrapeResult.result)) {
+        console.log("one table");
+        setTable(convertToTwoDArray((doc.data() as ScrapeResult).result));
+        setMultiTable(undefined);
+      } else {
+        let tempObj = {};
+        for (let [tableName, value] of Object.entries(
+          scrapeResult.result as object
+        )) {
+          tempObj = {
+            ...tempObj,
+            [tableName]: convertFromArrObjToTwoDArray(value),
+          };
+        }
+        setMultiTable(tempObj);
+        setMultiTableSelect(0);
+        setTable(undefined);
+      }
     });
   }, []);
+  useEffect(() => {
+    console.log(multiTable);
+  }, [multiTable]);
 
   return (
     <div className="flex-grow">
@@ -111,24 +136,42 @@ const ResultDisplayPage = () => {
       <div>
         <div className="divider"></div>
       </div>
-      <div className="flex flex-row">
-        <div className="flex-grow text-2xs text-secondary">
-          {/* <> */}
-
-          {/* SCRAPED ON: {data?.scrapeDatetime.toDate().getUTCDate()}/
-            {(data?.scrapeDatetime.toDate().getUTCMonth() as number) + 1}/
-            {data?.scrapeDatetime.toDate().getUTCFullYear()}{" "}
-            {data?.scrapeDatetime.toDate().getHours()}:
-            {data?.scrapeDatetime.toDate().getMinutes()}:
-            {data?.scrapeDatetime.toDate().getSeconds()}
-          </> */}
+      {multiTable !== undefined ? (
+        <div className="tabs">
+          {Object.keys(multiTable)
+            .sort()
+            .map((item, idx) => (
+              <a
+                className={`tab tab-lifted ${
+                  idx === multiTableSelect ? "tab-active" : ""
+                }`}
+                onClick={() => setMultiTableSelect(idx)}
+              >
+                {item}
+              </a>
+            ))}
         </div>
-      </div>
+      ) : (
+        <></>
+      )}
       <div className="w-full  mt-4">
         {table !== undefined ? (
           <ResultTable data={table as string[][]} setTable={setTable} />
         ) : (
-          <></>
+          <>
+            {multiTable !== undefined ? (
+              <ResultTable
+                data={
+                  Object.values(multiTable).sort()[
+                    multiTableSelect
+                  ] as string[][]
+                }
+                setTable={setTable}
+              />
+            ) : (
+              <></>
+            )}
+          </>
         )}
       </div>
     </div>

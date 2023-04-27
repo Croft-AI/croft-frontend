@@ -3,7 +3,9 @@ import {
   collection,
   getDocs,
   limit,
+  orderBy,
   query,
+  startAfter,
   Timestamp,
   where,
 } from "firebase/firestore";
@@ -11,6 +13,7 @@ import { db } from "../base";
 
 //scrapeStatus 1: successful, 2: in progress, 3: failed
 export interface ScrapeResult {
+  id: string;
   impressionId: string;
   result: object | [];
   scrapeDatetime: Timestamp;
@@ -42,13 +45,14 @@ export const getPaginateResult = async (
     const impressionRef = collection(db, "result");
     const q = query(
       impressionRef,
+      orderBy("scrapeDatetime"),
       where("impressionId", "==", impressionId),
       limit(noOfPage)
     );
     const querySnapshot = await getDocs(q);
     let scrapeResults: ScrapeResult[] = [];
     querySnapshot.forEach((doc) =>
-      scrapeResults.push(doc.data() as ScrapeResult)
+      scrapeResults.push({ id: doc.id, ...doc.data() } as ScrapeResult)
     );
     return scrapeResults;
   } catch (e) {

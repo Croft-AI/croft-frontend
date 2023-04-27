@@ -34,7 +34,7 @@ const SideBar = () => {
   const { pathname } = useLocation();
 
   return (
-    <div className="font-mono border-r-2 w-20 ">
+    <div className="font-mono border-r-2 w-20 relative sticky">
       <div className="drawer-side">
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
         <ul className="menu p-2 w-fit bg-base-100 text-base-content gap-2 m-auto">

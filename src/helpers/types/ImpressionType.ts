@@ -10,4 +10,4 @@ export interface ImpressionConfigItemType {
   get_attributes: HTMLAttributes[];
 }
 
-export type HTMLAttributes = "class" | "id" | "href" | "src" | "title";
+export type HTMLAttributes = "class" | "id" | "href" | "src" | "title" | "text";

@@ -38,7 +38,7 @@ export const convertFromArrObjToTwoDArray = (result: object[]) => {
 };
 
 export const convertToTwoDArray = (result: object): string[][] | undefined => {
-  if (!isOneTable(result)) return;
+  // if (!isOneTable(result)) return;
   let tableResult = makeOneTable(result);
   let returnArr = [Object.keys(tableResult[0]).sort()];
   for (let i = 0; i < tableResult.length; i++) {
@@ -49,4 +49,18 @@ export const convertToTwoDArray = (result: object): string[][] | undefined => {
     returnArr.push(row);
   }
   return returnArr;
+};
+
+export const jsonToTable = (result: object[]): string[][] => {
+  let headers = Object.keys(result[0]).sort();
+  let returnTable = [headers];
+  for (let cnt = 1; cnt < result.length; cnt++) {
+    let row = [];
+    for (let cnt2 = 0; cnt2 < returnTable[0].length; cnt2++) {
+      row.push((result[cnt] as any)[returnTable[0][cnt2]]);
+    }
+    returnTable.push(row);
+  }
+
+  return returnTable;
 };

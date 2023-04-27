@@ -19,6 +19,7 @@ import ImpressionBuildPage from "./pages/impression/ImpressionBuildPage";
 import ImpressionPage from "./pages/impression/ImpressionPage";
 import ResultDisplayPage from "./pages/result/ResultDisplayPage";
 import ResultCollectionPage from "./pages/result/ResultCollectionPage";
+import ResultListItemPage from "./pages/result/ResultListItemPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -44,6 +45,11 @@ const router = createBrowserRouter([
         path: "/result/:id",
         element: <ResultDisplayPage />,
       },
+      {
+        path: "/result/:id/view",
+        element: <ResultListItemPage />,
+      },
+      { path: "/dashboard", element: <></> },
     ],
   },
   {
@@ -56,7 +62,6 @@ const router = createBrowserRouter([
   },
   { path: "/signup", element: <SignUpPage /> },
   { path: "/forgot", element: <ForgotPasswordPage /> },
-  { path: "/dashboard", element: <DashboardPage /> },
 ]);
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

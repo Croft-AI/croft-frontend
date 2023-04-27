@@ -152,6 +152,17 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
                       }
                     />
                   </td>
+                  <td>text:</td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      className="checkbox checkbox-primary"
+                      name="text"
+                      onChange={(event) =>
+                        onCheck(event.target.name as HTMLAttributes)
+                      }
+                    />
+                  </td>
                   <td></td>
                   <td></td>
                 </tr>

@@ -9,7 +9,7 @@ interface IImpressionListItem {
   createdOn: Date;
 }
 
-const ImpressionListItem: React.FC<IImpressionListItem> = ({
+const ResultCollectionItem: React.FC<IImpressionListItem> = ({
   impressionId,
   path,
   title,
@@ -28,28 +28,8 @@ const ImpressionListItem: React.FC<IImpressionListItem> = ({
             {createdOn?.getFullYear()}
           </p>
         </div>
-        <div className="flex">
-          <div className="dropdown dropdown-end">
-            <button tabIndex={0} className="btn btn-ghost m-auto btn-sm ">
-              <IoEllipsisVertical className="text-base-300" />
-            </button>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-36"
-            >
-              <li>
-                <a
-                  className="text-red-400 active:bg-red-200"
-                  onClick={async () => await deleteImpression(impressionId)}
-                >
-                  <IoTrashBin /> Delete
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
       </div>
     </div>
   );
 };
-export default ImpressionListItem;
+export default ResultCollectionItem;

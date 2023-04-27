@@ -1,5 +1,5 @@
 import React from "react";
-import { IoTrashBin } from "react-icons/io5";
+import { IoPencil, IoTrashBin } from "react-icons/io5";
 import { HTMLAttributes } from "../../helpers/types/ImpressionType";
 
 interface IImpressionConfigListItem {
@@ -24,6 +24,7 @@ const ImpressionConfigListItem: React.FC<IImpressionConfigListItem> = ({
       <p className="w-1/3 truncate m-auto text-secondary">
         {getAttributes.join(", ")}
       </p>
+
       <button className="btn btn-ghost m-auto" onClick={onDeleteClick}>
         <IoTrashBin></IoTrashBin>
       </button>

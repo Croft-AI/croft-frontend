@@ -11,16 +11,11 @@ const ResultTable: React.FC<IResultTable> = ({ data, setTable }) => {
     newTable[colNo][rowNo] = newValue;
     setTable(newTable);
   };
+  console.log("new table", data);
   return (
     <div className="overflow-x-auto  table-wrp block max-h-96">
       {/* <table className="table-auto text-xs"> */}
-      <Table
-        className="font-mono select-none w-full"
-        striped
-        highlightOnHover
-        withBorder
-        withColumnBorders
-      >
+      <table className="font-mono select-none w-full">
         <thead className="sticky top-0 bg-white border border-1">
           {data[0].map((item) => (
             <th className="p-2 hover:bg-slate-200">{item}</th>
@@ -47,7 +42,7 @@ const ResultTable: React.FC<IResultTable> = ({ data, setTable }) => {
             );
           })}
         </tbody>
-      </Table>
+      </table>
       {/* </table> */}
     </div>
   );

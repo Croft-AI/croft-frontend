@@ -21,6 +21,7 @@ export interface ScrapeResult {
   status: ScrapeStatusCode;
 }
 
+
 export enum ScrapeStatusCode {
   SUCCESS = 1,
   PROGRESS = 2,

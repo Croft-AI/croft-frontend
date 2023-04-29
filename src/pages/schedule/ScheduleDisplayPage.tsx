@@ -6,10 +6,19 @@ import {
   ImpressionRead,
   getImpressions,
 } from "../../firebase/store/impressionHandler";
+import {
+  createNewSchedule,
+  ScheduleFrequency,
+} from "../../firebase/store/scheduleHandler";
 const frequencies = ["WEEKLY", "DAILY", "HOURLY"];
+
 const ScheduleDisplayPage = () => {
   const auth = useAuth();
   const [impressions, setImpressions] = useState<ImpressionRead[]>();
+  const [title, setTitle] = useState<string>();
+  const [impressionId, setImpressionId] = useState<string>();
+  const [frequency, setFrequency] = useState<string>(ScheduleFrequency.WEEKLY);
+
   useEffect(() => {
     const getUserImpressions = async () => {
       const currImpressions = await getImpressions(auth as string);
@@ -17,6 +26,20 @@ const ScheduleDisplayPage = () => {
     };
     getUserImpressions();
   }, []);
+
+  const createSchedule = async () => {
+    try {
+      await createNewSchedule({
+        createdBy: auth as string,
+        frequency: frequency as string,
+        title: title as string,
+        impressionId: impressionId as string,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <>
       <div className="flex flex-row">
@@ -48,6 +71,7 @@ const ScheduleDisplayPage = () => {
                   </label>
                 </label>
                 <input
+                  onChange={(event) => setTitle(event.target.value)}
                   className="input w-full input-bordered"
                   placeholder="Schedule Title"
                 ></input>
@@ -58,10 +82,13 @@ const ScheduleDisplayPage = () => {
                     Select Frequency:
                   </label>
                 </label>
-                <select className="select w-full select-bordered">
-                  {frequencies.map((item) => {
-                    return <option>{item}</option>;
-                  })}
+                <select
+                  className="select w-full select-bordered"
+                  onChange={(event) => setFrequency(event.target.value)}
+                >
+                  <option value={ScheduleFrequency.WEEKLY}>WEEKLY</option>
+                  <option value={ScheduleFrequency.DAILY}>DAILY</option>
+                  <option value={ScheduleFrequency.HOURLY}>HOURLY</option>
                 </select>
               </div>
             </div>
@@ -70,7 +97,13 @@ const ScheduleDisplayPage = () => {
                 Select Impression:
               </label>
             </label>
-            <select className="select w-full select-bordered">
+            <select
+              className="select w-full select-bordered"
+              onChange={(event) => setImpressionId(event.target.value)}
+            >
+              <option disabled value={""}>
+                Pick an Impression
+              </option>
               {impressions?.map((item) => {
                 return <option value={item.id}>{item.title}</option>;
               })}
@@ -78,7 +111,13 @@ const ScheduleDisplayPage = () => {
 
             <div className="w-full flex flex-row mt-6">
               <div className="flex-grow" />
-              <button className="btn btn-primary">create</button>
+              <label
+                className="btn btn-primary"
+                htmlFor={"my-modal-4"}
+                onClick={async () => await createSchedule()}
+              >
+                create
+              </label>
             </div>
           </label>
         </label>

@@ -15,6 +15,5 @@ export const sortResultsByDate = (results: ScrapeResult[]) => {
       returnObject[ddmmyyyy].push(result);
     }
   }
-  dates.reverse();
   return [dates as string[], returnObject];
 };

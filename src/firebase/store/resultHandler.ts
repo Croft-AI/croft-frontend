@@ -43,9 +43,10 @@ export const getPaginateResult = async (
 ): Promise<ScrapeResult[]> => {
   try {
     const impressionRef = collection(db, "result");
+    //ordered query set in firebase indexes
     const q = query(
       impressionRef,
-      orderBy("scrapeDatetime"),
+      orderBy("scrapeDatetime", "desc"),
       where("impressionId", "==", impressionId),
       limit(noOfPage)
     );

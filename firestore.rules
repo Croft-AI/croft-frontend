@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  match /user/{userData}{
+  allow read, write, update: if request.auth.uid !=null
+  }
+    match /impression/{imp} {
+      allow write, update: if request.auth.uid != null &&  request.resource.data.createdBy == request.auth.uid;
+      allow read,  delete: if resource.data.createdBy == request.auth.uid;
+    }
+    match /result/{res} {
+    	allow read, write, update: if request.auth.uid != null;
+    }
+    match /schedule/{sched}{
+    allow read,update,write, create: if resource.data.createdBy == request.auth.uid
+    }
+  }
+}

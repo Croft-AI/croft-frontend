@@ -1,0 +1,33 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "result",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "impressionId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "scrapeDatetime",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "result",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "impressionId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "scrapeDatetime",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

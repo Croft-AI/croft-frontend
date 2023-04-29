@@ -20,7 +20,7 @@ const ResultListItemPage = () => {
   const [sortedResults, setSortedResults] = useState<[]>([]);
   useEffect(() => {
     const getResults = async () => {
-      const pageResults = await getPaginateResult(id as string, 40);
+      const pageResults = await getPaginateResult(id as string, 10);
       setResults(pageResults);
     };
 
@@ -51,12 +51,12 @@ const ResultListItemPage = () => {
         <Timeline
           active={results.length - 1}
           lineWidth={4}
-          color="dark"
+          color="gray"
           className="w-full"
         >
           {sortedKeys?.map((item) => {
             return (
-              <Timeline.Item title={`Scraped on: ${item}`}>
+              <Timeline.Item title={`Scraped on: ${item}`} color="gray">
                 <ResultSubDateTable data={sortedResults[item as any]} />
               </Timeline.Item>
             );

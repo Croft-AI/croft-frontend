@@ -26,7 +26,7 @@ const sideBarContent = [
   {
     icon: <IoHourglassOutline className="w-6 h-6" />,
     name: "Schedules",
-    path: "/schedule",
+    path: "/schedules",
   },
 ];
 

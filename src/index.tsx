@@ -20,6 +20,7 @@ import ImpressionPage from "./pages/impression/ImpressionPage";
 import ResultDisplayPage from "./pages/result/ResultDisplayPage";
 import ResultCollectionPage from "./pages/result/ResultCollectionPage";
 import ResultListItemPage from "./pages/result/ResultListItemPage";
+import ScheduleDisplayPage from "./pages/schedule/ScheduleDisplayPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
+      { path: "/schedules", element: <ScheduleDisplayPage /> },
       {
         path: "/impression/:id",
         element: <ImpressionBuildPage />,

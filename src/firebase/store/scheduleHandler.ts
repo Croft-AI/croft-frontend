@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDocs,
   query,
@@ -58,5 +59,14 @@ export const getSchedules = async (id: string): Promise<ScheduledTask[]> => {
     throw new Error(
       "There was an error with getting your scheduled task at this time. Please try again later!"
     );
+  }
+};
+
+export const deleteSchedule = async (scheduleId: string): Promise<void> => {
+  try {
+    await deleteDoc(doc(db, "schedule", scheduleId));
+  } catch (e) {
+    console.error(e);
+    throw new Error("There was an error deleting impression");
   }
 };

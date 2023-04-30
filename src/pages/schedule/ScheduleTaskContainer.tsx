@@ -1,6 +1,9 @@
 import React from "react";
 import { IoEllipsisVertical, IoTrashBin } from "react-icons/io5";
-import { ScheduledTaskRead } from "../../firebase/store/scheduleHandler";
+import {
+  deleteSchedule,
+  ScheduledTaskRead,
+} from "../../firebase/store/scheduleHandler";
 interface IScheduledTaskContainer {
   data: ScheduledTaskRead;
 }
@@ -47,7 +50,10 @@ const ScheduledTaskContainer: React.FC<IScheduledTaskContainer> = ({
           className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-36"
         >
           <li>
-            <a className="text-red-400 active:bg-red-200" onClick={() => null}>
+            <a
+              className="text-red-400 active:bg-red-200"
+              onClick={() => deleteSchedule(data.id)}
+            >
               <IoTrashBin /> Delete
             </a>
           </li>

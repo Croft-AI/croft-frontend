@@ -5,7 +5,7 @@ export const sortResultsByDate = (results: ScrapeResult[]) => {
   let dates = [];
   for (let result of results) {
     const jsDateObject = new Date(result.scrapeDatetime.toDate());
-    const ddmmyyyy = `${jsDateObject.getDate() + 1}/${
+    const ddmmyyyy = `${jsDateObject.getDate()}/${
       jsDateObject.getMonth() + 1
     }/${jsDateObject.getFullYear()}`;
     if (!Object.keys(returnObject).includes(ddmmyyyy)) {

@@ -1,19 +1,25 @@
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 
 import { IoAdd } from "react-icons/io5";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
+import { db } from "../../firebase/base";
 import {
   ImpressionRead,
   getImpressions,
 } from "../../firebase/store/impressionHandler";
 import {
   createNewSchedule,
+  ScheduledTask,
+  ScheduledTaskRead,
   ScheduleFrequency,
 } from "../../firebase/store/scheduleHandler";
+import ScheduledTaskContainer from "./ScheduleTaskContainer";
 const frequencies = ["WEEKLY", "DAILY", "HOURLY"];
 
 const ScheduleDisplayPage = () => {
   const auth = useAuth();
+  const [schedules, setSchedules] = useState<ScheduledTaskRead[]>();
   const [impressions, setImpressions] = useState<ImpressionRead[]>();
   const [title, setTitle] = useState<string>();
   const [impressionId, setImpressionId] = useState<string>();
@@ -24,9 +30,23 @@ const ScheduleDisplayPage = () => {
       const currImpressions = await getImpressions(auth as string);
       setImpressions(currImpressions);
     };
+
     getUserImpressions();
   }, []);
+  useEffect(() => {
+    const queryForSchedules = query(
+      collection(db, "schedule"),
+      where("createdBy", "==", auth)
+    );
 
+    onSnapshot(queryForSchedules, (querySnapshot) => {
+      let currSchedules: ScheduledTaskRead[] = [];
+      querySnapshot.forEach((doc) => {
+        currSchedules.push({ id: doc.id, ...doc.data() } as ScheduledTaskRead);
+      });
+      setSchedules(currSchedules);
+    });
+  }, []);
   const createSchedule = async () => {
     try {
       await createNewSchedule({
@@ -122,7 +142,12 @@ const ScheduleDisplayPage = () => {
           </label>
         </label>
       </div>
-      <div className="divider"></div>
+      <div className="divider text-gray-300">{schedules?.length}/3</div>
+      <div className="flex flex-col gap-2">
+        {schedules?.map((item) => (
+          <ScheduledTaskContainer data={item} />
+        ))}
+      </div>
     </>
   );
 };

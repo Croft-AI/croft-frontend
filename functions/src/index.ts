@@ -11,7 +11,13 @@ admin.initializeApp(functions.config().firebase);
 //   functions.logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
-
+export interface CroftSubPostConfig {
+  url: string;
+  impression_id: string;
+  result_doc_id: string;
+  items: object[];
+  wait_for_selector?: string;
+}
 export interface ImpressionConfigType {
   url: string;
   items: ImpressionConfigItemType[];
@@ -58,6 +64,7 @@ exports.restrictScheduleCreates = functions.firestore
 exports.hourlyScheduledTask = functions.pubsub
   .schedule("0 * * * *")
   .onRun(async (context) => {
+    let configs: CroftSubPostConfig[] = [];
     await admin
       .firestore()
       .collection("schedule")
@@ -81,33 +88,31 @@ exports.hourlyScheduledTask = functions.pubsub
                 .add({ status: 2 })
                 .then(async (resultDoc) => {
                   const resultId = resultDoc.id;
-                  const body = {
-                    configs: [
-                      {
-                        url,
-                        items,
-                        wait_for_selector: config.items[0].css_selector,
-                        result_doc_id: resultId,
-                        impression_id: impressionId,
-                      },
-                    ],
-                  };
-
-                  try {
-                    await axios.post(
-                      "https://croft-pub-access-ysekuofdbq-uc.a.run.app",
-                      body
-                    );
-                    await admin
-                      .firestore()
-                      .collection("schedule")
-                      .doc(scheduleId)
-                      .set({ lastUpdated: new Date() }, { merge: true });
-                  } catch (e) {
-                    console.error(e);
-                  }
+                  configs.push({
+                    url,
+                    items,
+                    wait_for_selector: config.items[0].css_selector,
+                    result_doc_id: resultId,
+                    impression_id: impressionId,
+                  });
+                  await admin
+                    .firestore()
+                    .collection("schedule")
+                    .doc(scheduleId)
+                    .set({ lastUpdated: new Date() }, { merge: true });
                 });
             });
         });
       });
+    try {
+      const body = {
+        configs: configs,
+      };
+      await axios.post(
+        "https://croft-pub-access-ysekuofdbq-uc.a.run.app",
+        body
+      );
+    } catch (e) {
+      console.error(e);
+    }
   });

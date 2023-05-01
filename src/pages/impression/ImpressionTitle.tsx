@@ -9,12 +9,17 @@ import {
 } from "../../firebase/store/impressionHandler";
 import { randomName } from "../../helpers/randomNameGenerator/randomNameGenerator";
 import { ImpressionConfigType } from "../../helpers/types/ImpressionType";
+import { AccountIs } from "../../limits/AccountLimits";
 
 interface IImpressionTitle {
   onButtonClick: () => void;
+  noOfImpressions: number;
 }
 
-const ImpressionTitle: React.FC<IImpressionTitle> = ({ onButtonClick }) => {
+const ImpressionTitle: React.FC<IImpressionTitle> = ({
+  onButtonClick,
+  noOfImpressions,
+}) => {
   const [title, setTitle] = useState<string>(randomName().toUpperCase());
   const [loading, setLoading] = useState<boolean>(false);
   const [impressions, setImpressions] = useState<ImpressionRead[]>();
@@ -45,9 +50,13 @@ const ImpressionTitle: React.FC<IImpressionTitle> = ({ onButtonClick }) => {
             checkout some of our presets below.
           </p>
         </div>
-        <label htmlFor="my-modal-4" className="btn btn-square m-auto">
-          <IoAdd className="w-6 h-6 text-white" />
-        </label>
+        {noOfImpressions >= AccountIs["BASIC"].IMPRESSIONS ? (
+          <></>
+        ) : (
+          <label htmlFor="my-modal-4" className="btn btn-square m-auto">
+            <IoAdd className="w-6 h-6 text-white" />
+          </label>
+        )}
         <input
           type="checkbox"
           id="my-modal-4"
@@ -81,7 +90,6 @@ const ImpressionTitle: React.FC<IImpressionTitle> = ({ onButtonClick }) => {
           </label>
         </label>
       </div>
-      
     </>
   );
 };

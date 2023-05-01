@@ -46,7 +46,10 @@ const ImpressionPage = () => {
   return (
     <>
       <div className="flex flex-col">
-        <ImpressionTitle onButtonClick={() => null} />
+        <ImpressionTitle
+          onButtonClick={() => null}
+          noOfImpressions={impressions?.length as number}
+        />
         <div className="divider text-gray-300">
           {impressions?.length}/{AccountIs["BASIC"].IMPRESSIONS}
         </div>

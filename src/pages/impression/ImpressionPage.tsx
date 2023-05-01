@@ -13,6 +13,7 @@ import {
   getImpressions,
   ImpressionRead,
 } from "../../firebase/store/impressionHandler";
+import { AccountIs } from "../../limits/AccountLimits";
 import ImpressionList from "./ImpressionList";
 import ImpressionListItem from "./ImpressionListItem";
 import ImpressionTitle from "./ImpressionTitle";
@@ -45,7 +46,10 @@ const ImpressionPage = () => {
   return (
     <>
       <div className="flex flex-col">
-        <ImpressionTitle onButtonClick={() => console.log("fart")} />
+        <ImpressionTitle onButtonClick={() => null} />
+        <div className="divider text-gray-300">
+          {impressions?.length}/{AccountIs["BASIC"].IMPRESSIONS}
+        </div>
         <div className="h-96">
           <ImpressionList>
             {impressions !== undefined ? (

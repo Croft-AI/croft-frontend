@@ -1,5 +1,6 @@
 import React from "react";
 import { IoEllipsisVertical, IoTrashBin } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import {
   deleteSchedule,
   ScheduledTaskRead,
@@ -10,6 +11,7 @@ interface IScheduledTaskContainer {
 const ScheduledTaskContainer: React.FC<IScheduledTaskContainer> = ({
   data,
 }) => {
+  const navigate = useNavigate();
   const getTimeDifference = (): object => {
     let prevTime: any = data.lastUpdated?.toDate();
     let currTime: any = new Date();
@@ -47,9 +49,12 @@ const ScheduledTaskContainer: React.FC<IScheduledTaskContainer> = ({
         </button>
         <ul
           tabIndex={0}
-          className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-36"
+          className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-40"
         >
           <li>
+            <a onClick={() => navigate(`/result/${data.impressionId}/view`)}>
+              See Results
+            </a>
             <a
               className="text-red-400 active:bg-red-200"
               onClick={() => deleteSchedule(data.id)}

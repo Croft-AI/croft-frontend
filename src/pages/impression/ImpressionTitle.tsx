@@ -81,7 +81,7 @@ const ImpressionTitle: React.FC<IImpressionTitle> = ({ onButtonClick }) => {
           </label>
         </label>
       </div>
-      <div className="divider"></div>
+      
     </>
   );
 };

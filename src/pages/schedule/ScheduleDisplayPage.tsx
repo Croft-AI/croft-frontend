@@ -14,6 +14,7 @@ import {
   ScheduledTaskRead,
   ScheduleFrequency,
 } from "../../firebase/store/scheduleHandler";
+import { AccountIs } from "../../limits/AccountLimits";
 import ScheduledTaskContainer from "./ScheduleTaskContainer";
 const frequencies = ["WEEKLY", "DAILY", "HOURLY"];
 
@@ -69,9 +70,13 @@ const ScheduleDisplayPage = () => {
             Create scheduled scraping tasks.
           </p>
         </div>
-        <label htmlFor="my-modal-4" className="btn btn-square m-auto">
-          <IoAdd className="w-6 h-6 text-white" />
-        </label>
+        {(schedules?.length as number) >= AccountIs["BASIC"].SCHEDULES ? (
+          <></>
+        ) : (
+          <label htmlFor="my-modal-4" className="btn btn-square m-auto">
+            <IoAdd className="w-6 h-6 text-white" />
+          </label>
+        )}
         <input
           type="checkbox"
           id="my-modal-4"
@@ -142,7 +147,9 @@ const ScheduleDisplayPage = () => {
           </label>
         </label>
       </div>
-      <div className="divider text-gray-300">{schedules?.length}/3</div>
+      <div className="divider text-gray-300">
+        {schedules?.length}/{AccountIs["BASIC"].SCHEDULES}
+      </div>
       <div className="flex flex-col gap-2">
         {schedules?.map((item) => (
           <ScheduledTaskContainer data={item} />

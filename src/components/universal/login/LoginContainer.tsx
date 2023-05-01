@@ -45,7 +45,10 @@ const LoginContainer = () => {
         />
         <label className="label">
           <span className="label-text"></span>
-          <span className="label-text text-xs text-secondary hover:underline active:text-primary">
+          <span
+            className="label-text text-xs text-secondary hover:underline active:text-primary"
+            onClick={() => navigate("/forgot")}
+          >
             Forgot Password?
           </span>
         </label>

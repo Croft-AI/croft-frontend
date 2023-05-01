@@ -37,10 +37,14 @@ exports.onAccountCreation = functions.firestore
   .document("/user/{acc}")
   .onCreate(async (snap, context) => {
     // create as basic account
-    await snap.ref.set({ accountType: AccountTypes.BASIC }, { merge: true });
+    const { id } = snap.ref;
+    await admin
+      .firestore()
+      .collection("user-account-types")
+      .doc(id)
+      .create({ lastUpdated: new Date(), accountType: AccountTypes.BASIC });
     // send welcome email
-    const { email } = snap.data();
-    console.log(email);
+    // const { email } = snap.data();
   });
 
 exports.restrictScheduleCreates = functions.firestore
@@ -66,7 +70,6 @@ exports.restrictScheduleCreates = functions.firestore
       await snap.ref.delete();
     }
   });
-
 
 exports.hourlyScheduledTask = functions.pubsub
   .schedule("0 * * * *")

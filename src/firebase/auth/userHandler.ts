@@ -105,3 +105,4 @@ export const updateLastLogin = async (uid: string): Promise<void> => {
   const docRef = doc(db, "user", uid);
   await updateDoc(docRef, { lastLogin: new Date() });
 };
+

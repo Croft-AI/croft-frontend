@@ -2,6 +2,7 @@ import * as functions from "firebase-functions";
 import admin = require("firebase-admin");
 import { DocumentData } from "firebase-admin/firestore";
 import axios from "axios";
+import { AccountTypes } from "./types/Accounts";
 admin.initializeApp(functions.config().firebase);
 
 // // Start writing functions
@@ -31,6 +32,17 @@ export interface Impression {
   title: string;
   description: string;
 }
+
+exports.onAccountCreation = functions.firestore
+  .document("/user/{acc}")
+  .onCreate(async (snap, context) => {
+    // create as basic account
+    await snap.ref.set({ accountType: AccountTypes.BASIC }, { merge: true });
+    // send welcome email
+    const { email } = snap.data();
+    console.log(email);
+  });
+
 exports.restrictScheduleCreates = functions.firestore
   .document("/schedule/{sched}")
   .onCreate(async (snap, context) => {

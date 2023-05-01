@@ -5,6 +5,10 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import {
+  NotificationType,
+  pushNotification,
+} from "../../notifications/notificationPusher";
 
 export interface User {
   createdOn: Date;
@@ -81,8 +85,18 @@ export const userLoginWithEmailPassword = async (
     .then(async (result) => {
       const user = result.user;
       await updateLastLogin(user.uid);
+      pushNotification(
+        NotificationType.SUCCESS,
+        "Successful Login:",
+        "Welcome back! Traverse the web with us!"
+      );
     })
     .catch((error) => {
+      pushNotification(
+        NotificationType.ERROR,
+        "Login Error",
+        "There was an error with login. Please try again later!"
+      );
       throw new Error(error);
     });
 };

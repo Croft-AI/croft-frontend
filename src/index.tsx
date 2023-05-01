@@ -21,6 +21,7 @@ import ResultDisplayPage from "./pages/result/ResultDisplayPage";
 import ResultCollectionPage from "./pages/result/ResultCollectionPage";
 import ResultListItemPage from "./pages/result/ResultListItemPage";
 import ScheduleDisplayPage from "./pages/schedule/ScheduleDisplayPage";
+import { Notifications } from "@mantine/notifications";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -68,6 +69,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <FirebaseAuthWrapper>
+      <Notifications />
       <RouterProvider router={router} />
     </FirebaseAuthWrapper>
   </React.StrictMode>

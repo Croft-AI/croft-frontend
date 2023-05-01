@@ -5,7 +5,15 @@ import { ReactComponent as CroftIcon } from "../../../assets/CroftIcon.svg";
 import { useAuth } from "../../../firebase/auth/AuthContextWrapper";
 import { signInWithGoogle } from "../../../firebase/auth/signInWithGoogle";
 import { createUserWithPass } from "../../../firebase/auth/userHandler";
-import { isPasswordValid } from "../../../helpers/validators/userValidator";
+import {
+  isEmailValid,
+  isFieldsEmpty,
+  isPasswordValid,
+} from "../../../helpers/validators/userValidator";
+import {
+  NotificationType,
+  pushNotification,
+} from "../../../notifications/notificationPusher";
 const SignUpContainer = () => {
   const auth = useAuth();
   const navigate = useNavigate();
@@ -18,6 +26,8 @@ const SignUpContainer = () => {
 
   const signUpWithEmailPassword = async () => {
     try {
+      isFieldsEmpty([firstName, lastName, email, password, cfmPassword]);
+      isEmailValid(email);
       isPasswordValid(password, cfmPassword);
       const userObject = {
         firstName,
@@ -29,8 +39,18 @@ const SignUpContainer = () => {
         photoURL: "",
       };
       await createUserWithPass(userObject, password);
+      pushNotification(
+        NotificationType.SUCCESS,
+        "Successful Registration",
+        "You have successfully registered! Start traversing the web!"
+      );
     } catch (e) {
       console.error(e);
+      pushNotification(
+        NotificationType.ERROR,
+        "Sign Up Error:",
+        (e as any).message
+      );
     }
   };
   useEffect(() => {

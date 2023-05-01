@@ -67,6 +67,7 @@ exports.restrictScheduleCreates = functions.firestore
     }
   });
 
+
 exports.hourlyScheduledTask = functions.pubsub
   .schedule("0 * * * *")
   .onRun(async (context) => {

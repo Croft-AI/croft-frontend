@@ -31,5 +31,23 @@ export const isPasswordValid = (password: string, cfmPassword: string) => {
   if (!isPasswordSame(password, cfmPassword))
     throw new Error("Passwords are not the same!");
   if (passwordStrengthCheck(password) !== passwordStrengthOptions.STRONG)
-    throw new Error("Passwords are not complex enough!");
+    throw new Error(
+      "Passwords are not complex enough! Password must contain alphabets, numbers & symbols"
+    );
+};
+
+export const emailRegex = new RegExp(
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+);
+
+export const isEmailValid = (email: string) => {
+  if (!emailRegex.test(email))
+    throw new Error(
+      "Email entered is not valid! Email should be something like this: example@email.com"
+    );
+};
+export const isFieldsEmpty = (fields: string[]) => {
+  const isAllNotEmpty = fields.every((item) => item !== "");
+  if (isAllNotEmpty) return;
+  throw new Error("Some fields are left empty, please fill in all fields!");
 };

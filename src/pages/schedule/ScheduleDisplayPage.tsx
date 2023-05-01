@@ -15,6 +15,10 @@ import {
   ScheduleFrequency,
 } from "../../firebase/store/scheduleHandler";
 import { AccountIs } from "../../limits/AccountLimits";
+import {
+  NotificationType,
+  pushNotification,
+} from "../../notifications/notificationPusher";
 import ScheduledTaskContainer from "./ScheduleTaskContainer";
 const frequencies = ["WEEKLY", "DAILY", "HOURLY"];
 
@@ -28,8 +32,16 @@ const ScheduleDisplayPage = () => {
 
   useEffect(() => {
     const getUserImpressions = async () => {
-      const currImpressions = await getImpressions(auth as string);
-      setImpressions(currImpressions);
+      try {
+        const currImpressions = await getImpressions(auth as string);
+        setImpressions(currImpressions);
+      } catch (e) {
+        pushNotification(
+          NotificationType.ERROR,
+          "Loading Error:",
+          (e as any).message as string
+        );
+      }
     };
 
     getUserImpressions();
@@ -58,6 +70,11 @@ const ScheduleDisplayPage = () => {
       });
     } catch (e) {
       console.error(e);
+      pushNotification(
+        NotificationType.ERROR,
+        "Schedule Error:",
+        (e as any).message as string
+      );
     }
   };
 

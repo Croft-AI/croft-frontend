@@ -2,6 +2,15 @@ import React, { SetStateAction, useEffect, useState } from "react";
 import { IoRemoveSharp } from "react-icons/io5";
 import { Impression } from "../../firebase/store/impressionHandler";
 import { HTMLAttributes } from "../../helpers/types/ImpressionType";
+import {
+  isAttributeEmpty,
+  isTitleValid,
+  isValidSelector,
+} from "../../helpers/validators/impressionAdderValidator";
+import {
+  NotificationType,
+  pushNotification,
+} from "../../notifications/notificationPusher";
 
 interface IImpressionItemAdder {
   isVisible: boolean;
@@ -22,22 +31,33 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
   const [title, setTitle] = useState<string>();
   const [attributes, setAttributes] = useState<HTMLAttributes[]>([]);
   const onImpressionConfirm = () => {
-    setImpression({
-      ...impression,
-      config: {
-        ...impression.config,
-        items: [
-          ...impression.config.items,
-          {
-            css_selector: selector as string,
-            title: title as string,
-            get_attributes: attributes as HTMLAttributes[],
-          },
-        ],
-      },
-    });
-    setAttributes([]);
-    onConfirm();
+    try {
+      isValidSelector(selector as string);
+      isAttributeEmpty(attributes);
+      isTitleValid(title as string, impression.config.items);
+      setImpression({
+        ...impression,
+        config: {
+          ...impression.config,
+          items: [
+            ...impression.config.items,
+            {
+              css_selector: selector as string,
+              title: title as string,
+              get_attributes: attributes as HTMLAttributes[],
+            },
+          ],
+        },
+      });
+      setAttributes([]);
+      onConfirm();
+    } catch (e) {
+      pushNotification(
+        NotificationType.ERROR,
+        "Field Error:",
+        (e as any).message
+      );
+    }
   };
 
   const visible = isVisible ? "" : "hidden";

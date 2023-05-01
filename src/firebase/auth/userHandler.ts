@@ -94,7 +94,7 @@ export const userLoginWithEmailPassword = async (
     .catch((error) => {
       pushNotification(
         NotificationType.ERROR,
-        "Login Error",
+        "Login Error:",
         "There was an error with login. Please try again later!"
       );
       throw new Error(error);

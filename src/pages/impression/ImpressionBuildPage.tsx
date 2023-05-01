@@ -11,6 +11,11 @@ import ImpressionItemAdder from "../impression/ImpressionItemAdder";
 import ImpressionConfigListItem from "./ImpressionConfigItemListItem";
 import { createResultDoc } from "../../firebase/store/resultHandler";
 import { postCroftScrapeConfig } from "../../handler/croftSubHandler";
+import { isUrlValid } from "../../helpers/validators/impressionAdderValidator";
+import {
+  NotificationType,
+  pushNotification,
+} from "../../notifications/notificationPusher";
 
 const ImpressionBuildPage = () => {
   const { id } = useParams();
@@ -45,6 +50,7 @@ const ImpressionBuildPage = () => {
 
   const onButtonRun = async () => {
     try {
+      isUrlValid(impression?.config.url as string);
       const result_doc_id = await createResultDoc();
       await postCroftScrapeConfig({
         impression_id: id as string,
@@ -56,6 +62,11 @@ const ImpressionBuildPage = () => {
       navigate(`/result/${result_doc_id}`);
     } catch (e) {
       console.error(e);
+      pushNotification(
+        NotificationType.ERROR,
+        "Field Error:",
+        (e as any).message
+      );
     }
   };
   useEffect(() => {

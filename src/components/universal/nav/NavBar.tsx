@@ -8,7 +8,9 @@ import {
 } from "react-icons/io5";
 import { logout } from "../../../firebase/auth/userHandler";
 import { ReactComponent as CroftIcon } from "../../../assets/CroftIcon.svg";
+import { useNavigate } from "react-router-dom";
 const NavBar = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="p-2 bg-base-100 border-b-2">
@@ -32,7 +34,7 @@ const NavBar = () => {
                 className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 mt-4 font-mono border border-1 "
               >
                 <li>
-                  <a>
+                  <a onClick={() => navigate("/profile")}>
                     <IoPersonCircle />
                     Profile
                   </a>

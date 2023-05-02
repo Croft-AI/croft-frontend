@@ -31,7 +31,6 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
   // const onSubmit = (data: any) => console.log(data);

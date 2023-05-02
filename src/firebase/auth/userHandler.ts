@@ -106,3 +106,15 @@ export const updateLastLogin = async (uid: string): Promise<void> => {
   await updateDoc(docRef, { lastLogin: new Date() });
 };
 
+export const getUserProfile = async (uid: string): Promise<User> => {
+  try {
+    const docRef = doc(db, "user", uid);
+    const profile = await getDoc(docRef);
+    return profile.data() as User;
+  } catch (e) {
+    console.error(e);
+    throw new Error(
+      "There was an error retrieving User's account at this moment!"
+    );
+  }
+};

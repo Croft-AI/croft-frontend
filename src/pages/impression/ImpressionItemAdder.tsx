@@ -1,4 +1,5 @@
 import React, { SetStateAction, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { IoRemoveSharp } from "react-icons/io5";
 import { Impression } from "../../firebase/store/impressionHandler";
 import { HTMLAttributes } from "../../helpers/types/ImpressionType";
@@ -27,11 +28,17 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
   impression,
   setImpression,
 }) => {
-  const [selector, setSelector] = useState<string>();
-  const [title, setTitle] = useState<string>();
-  const [attributes, setAttributes] = useState<HTMLAttributes[]>([]);
-  const onImpressionConfirm = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  // const onSubmit = (data: any) => console.log(data);
+
+  const onSubmit = (data: any) => {
     try {
+      const { selector, attributes, title } = data;
       isValidSelector(selector as string);
       isAttributeEmpty(attributes);
       isTitleValid(title as string, impression.config.items);
@@ -44,12 +51,11 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
             {
               css_selector: selector as string,
               title: title as string,
-              get_attributes: attributes as HTMLAttributes[],
+              get_attributes: data.attributes,
             },
           ],
         },
       });
-      setAttributes([]);
       onConfirm();
     } catch (e) {
       pushNotification(
@@ -61,15 +67,15 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
   };
 
   const visible = isVisible ? "" : "hidden";
-  const onCheck = (name: HTMLAttributes) => {
-    if (attributes.includes(name)) {
-      let thisArr = attributes.filter((item) => item !== name);
-      setAttributes(thisArr);
-    } else {
-      setAttributes(attributes.concat([name]));
-    }
-  };
-  useEffect(() => console.log(attributes), [attributes]);
+  // const onCheck = (name: HTMLAttributes) => {
+  //   if (attributes.includes(name)) {
+  //     let thisArr = attributes.filter((item) => item !== name);
+  //     setAttributes(thisArr);
+  //   } else {
+  //     setAttributes(attributes.concat([name]));
+  //   }
+  // };
+  // useEffect(() => console.log(attributes), [attributes]);
   return (
     <div
       className={`w-full h-fit shadow ease-in duration-300 shadow-lg rounded-lg border border-2 p-4 flex flex-col gap-2 ${visible}`}
@@ -85,10 +91,11 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
           className="w-full"
           action="none"
           method="none"
-          onSubmit={(e) => {
-            e.preventDefault();
-            setAttributes([]);
-          }}
+          onSubmit={handleSubmit(onSubmit)}
+          // onSubmit={(e) => {
+
+          // e.preventDefault();
+          // setAttributes([]);
         >
           <div className="flex flex-row">
             <div className="border-r-2 w-full pr-4">
@@ -99,7 +106,7 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
                 type="text"
                 className={"input input-bordered w-full mr-2 input-sm"}
                 placeholder="Example: 'product_price'"
-                onChange={(event) => setTitle(event.target.value)}
+                {...register("title")}
               />
               <label className="label text-sm text-secondary">
                 <span className="label-text">CSS Selector / Selector Path</span>
@@ -108,7 +115,8 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
                 type="text"
                 className={"input input-bordered w-full mr-2 input-sm"}
                 placeholder="Example: div.className"
-                onChange={(event) => setSelector(event.target.value)}
+                // onChange={(event) => setSelector(event.target.value)}
+                {...register("selector")}
               />
             </div>
             <div className="w-full px-4 m-auto">
@@ -118,12 +126,13 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
                   <td>href:</td>
                   <td>
                     <input
-                      name="href"
                       type="checkbox"
                       className="checkbox checkbox-primary"
-                      onChange={(event) =>
-                        onCheck(event.target.name as HTMLAttributes)
-                      }
+                      // onChange={(event) =>
+                      //   onCheck(event.target.name as HTMLAttributes)
+                      // }
+                      value={"href"}
+                      {...register("attributes")}
                     />
                   </td>
                   <td>id:</td>
@@ -131,10 +140,12 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
                     <input
                       type="checkbox"
                       className="checkbox checkbox-primary"
-                      name="id"
-                      onChange={(event) =>
-                        onCheck(event.target.name as HTMLAttributes)
-                      }
+                      // name="id"
+                      // onChange={(event) =>
+                      //   onCheck(event.target.name as HTMLAttributes)
+                      // }
+                      value="id"
+                      {...register("attributes")}
                     />
                   </td>
                   <td>class:</td>
@@ -142,10 +153,11 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
                     <input
                       type="checkbox"
                       className="checkbox checkbox-primary"
-                      name="class"
-                      onChange={(event) =>
-                        onCheck(event.target.name as HTMLAttributes)
-                      }
+                      value="class"
+                      {...register("attributes")}
+                      // onChange={(event) =>
+                      //   onCheck(event.target.name as HTMLAttributes)
+                      // }
                     />
                   </td>
                 </tr>
@@ -155,10 +167,11 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
                     <input
                       type="checkbox"
                       className="checkbox checkbox-primary"
-                      name="src"
-                      onChange={(event) =>
-                        onCheck(event.target.name as HTMLAttributes)
-                      }
+                      value="src"
+                      {...register("attributes")}
+                      // onChange={(event) =>
+                      //   onCheck(event.target.name as HTMLAttributes)
+                      // }
                     />
                   </td>
                   <td>title:</td>
@@ -166,10 +179,11 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
                     <input
                       type="checkbox"
                       className="checkbox checkbox-primary"
-                      name="title"
-                      onChange={(event) =>
-                        onCheck(event.target.name as HTMLAttributes)
-                      }
+                      value="title"
+                      {...register("attributes")}
+                      // onChange={(event) =>
+                      //   onCheck(event.target.name as HTMLAttributes)
+                      // }
                     />
                   </td>
                   <td>text:</td>
@@ -177,10 +191,11 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
                     <input
                       type="checkbox"
                       className="checkbox checkbox-primary"
-                      name="text"
-                      onChange={(event) =>
-                        onCheck(event.target.name as HTMLAttributes)
-                      }
+                      value="text"
+                      {...register("attributes")}
+                      // onChange={(event) =>
+                      //   onCheck(event.target.name as HTMLAttributes)
+                      // }
                     />
                   </td>
                   <td></td>
@@ -194,7 +209,7 @@ const ImpressionItemAdder: React.FC<IImpressionItemAdder> = ({
             <button className="btn btn-ghost" type="reset">
               Clear
             </button>
-            <button className="btn" onClick={onImpressionConfirm} type="reset">
+            <button className="btn" type="submit">
               Confirm
             </button>
           </div>

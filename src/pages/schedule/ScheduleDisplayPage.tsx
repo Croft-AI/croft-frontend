@@ -11,9 +11,11 @@ import {
 } from "../../firebase/store/impressionHandler";
 import {
   createNewSchedule,
+  ScheduledTask,
   ScheduledTaskRead,
   ScheduleFrequency,
 } from "../../firebase/store/scheduleHandler";
+import { validateScheduleValues } from "../../helpers/validators/scheduleValueValidator";
 import { AccountIs } from "../../limits/AccountLimits";
 import {
   NotificationType,
@@ -63,7 +65,12 @@ const ScheduleDisplayPage = () => {
   }, []);
   const createSchedule = async (data: any) => {
     const { impressionId, title, frequency } = data;
+
     try {
+      validateScheduleValues({
+        createdBy: auth as string,
+        ...data,
+      } as ScheduledTask);
       await createNewSchedule({
         createdBy: auth as string,
         frequency: frequency as string,
@@ -146,10 +153,10 @@ const ScheduleDisplayPage = () => {
               </label>
               <select
                 className="select w-full select-bordered"
-                // onChange={(event) => setImpressionId(event.target.value)}
+                defaultValue={""}
                 {...register("impressionId")}
               >
-                <option disabled value={""}>
+                <option disabled value={undefined} selected>
                   Pick an Impression
                 </option>
                 {impressions?.map((item) => {

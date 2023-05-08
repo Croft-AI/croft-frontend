@@ -11,7 +11,6 @@ import {
 } from "../../firebase/store/impressionHandler";
 import {
   createNewSchedule,
-  ScheduledTask,
   ScheduledTaskRead,
   ScheduleFrequency,
 } from "../../firebase/store/scheduleHandler";
@@ -21,7 +20,6 @@ import {
   pushNotification,
 } from "../../notifications/notificationPusher";
 import ScheduledTaskContainer from "./ScheduleTaskContainer";
-const frequencies = ["WEEKLY", "DAILY", "HOURLY"];
 
 const ScheduleDisplayPage = () => {
   const auth = useAuth();
@@ -32,9 +30,6 @@ const ScheduleDisplayPage = () => {
   } = useForm();
   const [schedules, setSchedules] = useState<ScheduledTaskRead[]>();
   const [impressions, setImpressions] = useState<ImpressionRead[]>();
-  const [title, setTitle] = useState<string>();
-  const [impressionId, setImpressionId] = useState<string>();
-  const [frequency, setFrequency] = useState<string>(ScheduleFrequency.WEEKLY);
 
   useEffect(() => {
     const getUserImpressions = async () => {

@@ -1,5 +1,6 @@
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 import { IoAdd } from "react-icons/io5";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
@@ -24,6 +25,11 @@ const frequencies = ["WEEKLY", "DAILY", "HOURLY"];
 
 const ScheduleDisplayPage = () => {
   const auth = useAuth();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [schedules, setSchedules] = useState<ScheduledTaskRead[]>();
   const [impressions, setImpressions] = useState<ImpressionRead[]>();
   const [title, setTitle] = useState<string>();
@@ -60,7 +66,8 @@ const ScheduleDisplayPage = () => {
       setSchedules(currSchedules);
     });
   }, []);
-  const createSchedule = async () => {
+  const createSchedule = async (data: any) => {
+    const { impressionId, title, frequency } = data;
     try {
       await createNewSchedule({
         createdBy: auth as string,
@@ -101,66 +108,69 @@ const ScheduleDisplayPage = () => {
         />
         <label htmlFor="my-modal-4" className="modal cursor-pointer">
           <label className="modal-box relative" htmlFor="">
-            <h3 className="text-lg font-bold">Create a Scheduled Task</h3>
-            <p className="py-4 text-sm">
-              Create scheduled tasks to get updated data
-            </p>
-            <div className="flex flex-row gap-4">
-              <div className="flex-grow">
-                <label className="label">
-                  <label className="label-text text-sm text-secondary">
-                    Schedule Title:
+            <form onSubmit={handleSubmit(createSchedule)}>
+              <h3 className="text-lg font-bold">Create a Scheduled Task</h3>
+              <p className="py-4 text-sm">
+                Create scheduled tasks to get updated data
+              </p>
+              <div className="flex flex-row gap-4">
+                <div className="flex-grow">
+                  <label className="label">
+                    <label className="label-text text-sm text-secondary">
+                      Schedule Title:
+                    </label>
                   </label>
-                </label>
-                <input
-                  onChange={(event) => setTitle(event.target.value)}
-                  className="input w-full input-bordered"
-                  placeholder="Schedule Title"
-                ></input>
-              </div>
-              <div>
-                <label className="label">
-                  <label className="label-text text-sm text-secondary">
-                    Select Frequency:
+                  <input
+                    // onChange={(event) => setTitle(event.target.value)}
+                    className="input w-full input-bordered"
+                    placeholder="Schedule Title"
+                    {...register("title")}
+                  ></input>
+                </div>
+                <div>
+                  <label className="label">
+                    <label className="label-text text-sm text-secondary">
+                      Select Frequency:
+                    </label>
                   </label>
-                </label>
-                <select
-                  className="select w-full select-bordered"
-                  onChange={(event) => setFrequency(event.target.value)}
-                >
-                  <option value={ScheduleFrequency.WEEKLY}>WEEKLY</option>
-                  <option value={ScheduleFrequency.DAILY}>DAILY</option>
-                  <option value={ScheduleFrequency.HOURLY}>HOURLY</option>
-                </select>
+                  <select
+                    className="select w-full select-bordered"
+                    // onChange={(event) => setFrequency(event.target.value)}
+                    {...register("frequency")}
+                  >
+                    <option value={ScheduleFrequency.WEEKLY}>WEEKLY</option>
+                    <option value={ScheduleFrequency.DAILY}>DAILY</option>
+                    <option value={ScheduleFrequency.HOURLY}>HOURLY</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <label className="label">
-              <label className="label-text text-sm text-secondary">
-                Select Impression:
+              <label className="label">
+                <label className="label-text text-sm text-secondary">
+                  Select Impression:
+                </label>
               </label>
-            </label>
-            <select
-              className="select w-full select-bordered"
-              onChange={(event) => setImpressionId(event.target.value)}
-            >
-              <option disabled value={""}>
-                Pick an Impression
-              </option>
-              {impressions?.map((item) => {
-                return <option value={item.id}>{item.title}</option>;
-              })}
-            </select>
-
-            <div className="w-full flex flex-row mt-6">
-              <div className="flex-grow" />
-              <label
-                className="btn btn-primary"
-                htmlFor={"my-modal-4"}
-                onClick={async () => await createSchedule()}
+              <select
+                className="select w-full select-bordered"
+                // onChange={(event) => setImpressionId(event.target.value)}
+                {...register("impressionId")}
               >
-                create
-              </label>
-            </div>
+                <option disabled value={""}>
+                  Pick an Impression
+                </option>
+                {impressions?.map((item) => {
+                  return <option value={item.id}>{item.title}</option>;
+                })}
+              </select>
+
+              <div className="w-full flex flex-row mt-6">
+                <div className="flex-grow" />
+                <button type="submit">
+                  <label className="btn btn-primary" htmlFor={"my-modal-4"}>
+                    create
+                  </label>
+                </button>
+              </div>
+            </form>
           </label>
         </label>
       </div>

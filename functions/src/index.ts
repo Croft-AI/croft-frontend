@@ -38,12 +38,41 @@ exports.onAccountCreation = functions.firestore
   .onCreate(async (snap, context) => {
     // create as basic account
     const { id } = snap.ref;
+    const { firstName, email } = snap.data();
     await admin
       .firestore()
       .collection("user-account-types")
       .doc(id)
       .create({ lastUpdated: new Date(), accountType: AccountTypes.BASIC });
     // send welcome email
+    await admin
+      .firestore()
+      .collection("mail")
+      .add({
+        to: email,
+        message: {
+          subject: "Welcome to Croft!",
+          html: `<!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset="UTF-8">
+              <title>Welcome to Croft - Traverse the Web!</title>
+            </head>
+            <body>
+              <h1>Welcome to Croft - Traverse the Web!</h1>
+              <p>Dear ${firstName},</p>
+              <p>Thank you for signing up with Croft! We are excited to have you as a member of our community.</p>
+              <p>Croft is a platform where you can explore and discover new websites, connect with like-minded individuals, and share your own web journeys. With Croft, you can traverse the web and find inspiration, knowledge, and entertainment.</p>
+              <p>As a new member, you have access to all the features and benefits that Croft has to offer.</p>
+              <p>If you have any questions or feedback, please don't hesitate to contact us. We are always happy to hear from our members and improve our platform.</p>
+              <p>Once again, welcome to Croft! We hope you enjoy your web journey with us.</p>
+              <p>Best regards,</p>
+              <p>The Croft Team</p>
+            </body>
+          </html>
+          `,
+        },
+      });
     // const { email } = snap.data();
   });
 

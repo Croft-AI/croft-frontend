@@ -26,9 +26,9 @@ const ProfilePage = () => {
           <p className="text-sm text-secondary mt-4">Update your details.</p>
         </div>
       </div>
-      <div className="divider"></div>
+      {/* <div className="divider"></div> */}
       <div className="flex flex-col w-full gap-4">
-        <div className="flex flex-row gap-4">
+        {/* <div className="flex flex-row gap-4">
           <div className="pr-4 avatar border-r-2">
             <div className="w-24 rounded-full">
               {profile?.photoURL !== "" ? (
@@ -46,7 +46,7 @@ const ProfilePage = () => {
               className="file-input file-input-bordered w-full max-w-xs"
             />
           </div>
-        </div>
+        </div> */}
         <div className="divider"></div>
         <div className="w-full h-fit">
           <form className="w-full">

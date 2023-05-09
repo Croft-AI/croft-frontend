@@ -59,7 +59,7 @@ exports.onAccountCreation = functions.firestore
               <title>Welcome to Croft - Traverse the Web!</title>
             </head>
             <body>
-              <h1>Welcome to Croft - Traverse the Web!</h1>
+              <h3>Welcome to Croft - Traverse the Web!</h3>
               <p>Dear ${firstName},</p>
               <p>Thank you for signing up with Croft! We are excited to have you as a member of our community.</p>
               <p>Croft is a platform where you can explore and discover new websites, connect with like-minded individuals, and share your own web journeys. With Croft, you can traverse the web and find inspiration, knowledge, and entertainment.</p>

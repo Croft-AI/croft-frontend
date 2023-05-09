@@ -1,5 +1,5 @@
 import {
-  IoCloudy,
+  IoCardOutline,
   IoPersonCircle,
   IoCloudyOutline,
   IoLayersOutline,
@@ -37,6 +37,12 @@ const NavBar = () => {
                   <a onClick={() => navigate("/profile")}>
                     <IoPersonCircle />
                     Profile
+                  </a>
+                </li>
+                <li>
+                  <a onClick={() => navigate("/billing")}>
+                    <IoCardOutline />
+                    Billing
                   </a>
                 </li>
                 <li>

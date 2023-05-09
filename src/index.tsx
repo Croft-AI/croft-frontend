@@ -23,6 +23,7 @@ import ResultListItemPage from "./pages/result/ResultListItemPage";
 import ScheduleDisplayPage from "./pages/schedule/ScheduleDisplayPage";
 import { Notifications } from "@mantine/notifications";
 import ProfilePage from "./pages/profile/ProfilePage";
+import BillingPage from "./pages/billing/BillingPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -54,6 +55,7 @@ const router = createBrowserRouter([
         element: <ResultListItemPage />,
       },
       { path: "/profile", element: <ProfilePage /> },
+      { path: "/billing", element: <BillingPage /> },
       { path: "/dashboard", element: <></> },
     ],
   },

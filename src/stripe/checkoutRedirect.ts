@@ -3,6 +3,7 @@ import { app } from "../firebase/base";
 import {
   createCheckoutSession,
   getStripePayments,
+  
 } from "@stripe/firestore-stripe-payments";
 
 const payments = getStripePayments(app, {

@@ -2,6 +2,8 @@ import React from "react";
 import { IoCheckmark } from "react-icons/io5";
 
 interface IPlanContainer {
+  isPremium: boolean;
+  isShadow: boolean;
   planTitle: string;
   planDescription: string;
   pricingPerMonth: number;
@@ -10,14 +12,19 @@ interface IPlanContainer {
 }
 
 const PlanContainer: React.FC<IPlanContainer> = ({
+  isPremium,
+  isShadow,
   planTitle,
   planDescription,
   pricingPerMonth,
   characteristics,
   onSubscribe,
 }) => {
+  const shadowStyle = isShadow ? "shadow shadow-2xl" : "";
   return (
-    <div className="w-72 h-fit rounded-lg border border-2 p-6 flex flex-col">
+    <div
+      className={`w-72 h-fit rounded-lg border border-2 p-6 flex flex-col ${shadowStyle}`}
+    >
       <div className="mx-auto text-center">
         <p className="text-2xl text-gray-600 ">{planTitle}</p>
 
@@ -47,6 +54,7 @@ const PlanContainer: React.FC<IPlanContainer> = ({
           <button
             className="btn btn-primary w-full"
             onClick={onSubscribe}
+            disabled={isPremium}
           >
             Subscribe
           </button>

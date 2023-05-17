@@ -1,5 +1,14 @@
 import { auth, db } from "../base";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import {
   signOut,
   createUserWithEmailAndPassword,
@@ -18,6 +27,15 @@ export interface User {
   firstName: string;
   lastName: string;
   photoURL: string;
+}
+
+export interface UserInvoice {
+  currency: string;
+  planTitle: string;
+  status: boolean;
+  price: number;
+  paymentDate: Date;
+  invoicePdfDownload: string;
 }
 
 export const createUserWithPass = async (
@@ -115,6 +133,55 @@ export const getUserProfile = async (uid: string): Promise<User> => {
     console.error(e);
     throw new Error(
       "There was an error retrieving User's account at this moment!"
+    );
+  }
+};
+
+export const getUserPaymentInvoice = async (
+  uid: string
+): Promise<UserInvoice[]> => {
+  try {
+    // const docRef = doc(db, "user", uid, "subscriptions");
+    const subscriptionCollection = collection(db, "user", uid, "subscriptions");
+    const subsQuery = query(
+      subscriptionCollection,
+      where("status", "==", "active")
+    );
+    const subs = await getDocs(subsQuery);
+    let currSubId: string = "";
+    let allInvoices: UserInvoice[] = [];
+    subs.forEach((item) => {
+      // allSubs.push(item.data());
+      currSubId = item.id;
+    });
+
+    const invoicesCollection = collection(
+      db,
+      "user",
+      uid,
+      "subscriptions",
+      currSubId,
+      "invoices"
+    );
+    const invoicesQuery = query(invoicesCollection);
+    const invoices = await getDocs(invoicesQuery);
+    invoices.forEach((item) => {
+      const { amount_due, paid, created, invoice_pdf, currency } = item.data();
+      allInvoices.push({
+        planTitle: "PREMIUM SUBSCRIPTION",
+        currency: currency.toUpperCase(),
+        price: amount_due / 100,
+        status: paid,
+        paymentDate: new Date(created * 1000),
+        invoicePdfDownload: invoice_pdf,
+      });
+    });
+    console.log(allInvoices);
+    return allInvoices as UserInvoice[];
+  } catch (e) {
+    console.error(e);
+    throw new Error(
+      "There was an error with retrieving User's invoices at this time!"
     );
   }
 };

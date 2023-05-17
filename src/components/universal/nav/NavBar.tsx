@@ -19,15 +19,9 @@ const NavBar = () => {
             <a className="btn btn-ghost normal-case text-xl font-mono">CROFT</a>
           </div>
           <div className="flex flex-row">
-            <button className="btn btn-ghost">
-              <IoLayersOutline />
-            </button>
-            <button className="btn btn-ghost">
-              <IoCloudyOutline />
-            </button>
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost">
-                <IoPerson />
+                <IoPerson className="w-4 h-4" />
               </label>
               <ul
                 tabIndex={0}

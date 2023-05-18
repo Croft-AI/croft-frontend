@@ -2,7 +2,11 @@ import * as functions from "firebase-functions";
 import admin = require("firebase-admin");
 import { DocumentData } from "firebase-admin/firestore";
 import axios from "axios";
-import { AccountTypes } from "./types/Accounts";
+import {
+  AccountTypes,
+  BasicAccountLimits,
+  PremiumAccountLimits,
+} from "./types/Accounts";
 admin.initializeApp(functions.config().firebase);
 
 // // Start writing functions
@@ -49,6 +53,14 @@ export interface Impression {
   title: string;
   description: string;
 }
+
+const checkIfUserIsPremium = async (uid: string): Promise<boolean> => {
+  return (await (
+    await admin.auth().getUser(uid)
+  ).customClaims?.stripeRole)
+    ? true
+    : false;
+};
 
 exports.onAccountCreation = functions.firestore
   .document("/user/{acc}")
@@ -101,6 +113,11 @@ exports.restrictScheduleCreates = functions.firestore
     // const q = query(schedulesRef, where("createdBy", "==", createdBy));
     // const querySnapshot = await getDocs(q);
     let currSchedules: DocumentData[] = [];
+    let isPremium = await checkIfUserIsPremium(createdBy);
+    const limit = isPremium
+      ? PremiumAccountLimits.SCHEDULES
+      : BasicAccountLimits.SCHEDULES;
+    console.log(isPremium);
     await admin
       .firestore()
       .collection("schedule")
@@ -112,7 +129,7 @@ exports.restrictScheduleCreates = functions.firestore
         });
       });
     console.log(createdBy, snap.id, currSchedules);
-    if (currSchedules.length > 3) {
+    if (currSchedules.length > limit) {
       await snap.ref.delete();
     }
   });

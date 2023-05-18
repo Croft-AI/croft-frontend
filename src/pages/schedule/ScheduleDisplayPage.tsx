@@ -21,10 +21,12 @@ import {
   NotificationType,
   pushNotification,
 } from "../../notifications/notificationPusher";
+import usePremiumStatus from "../../stripe/usePremiumStatus";
 import ScheduledTaskContainer from "./ScheduleTaskContainer";
 
 const ScheduleDisplayPage = () => {
   const auth = useAuth();
+  const isPremium = usePremiumStatus(auth as string);
   const {
     register,
     handleSubmit,
@@ -96,7 +98,10 @@ const ScheduleDisplayPage = () => {
             Create scheduled scraping tasks.
           </p>
         </div>
-        {(schedules?.length as number) >= AccountIs["BASIC"].SCHEDULES ? (
+        {(schedules?.length as number) >=
+        (isPremium
+          ? AccountIs["PREMIUM"].SCHEDULES
+          : AccountIs["BASIC"].SCHEDULES) ? (
           <></>
         ) : (
           <label htmlFor="my-modal-4" className="btn btn-square m-auto">

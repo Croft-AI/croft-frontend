@@ -51,13 +51,13 @@ const ImpressionBuildPage = () => {
   const onButtonRun = async () => {
     try {
       isUrlValid(impression?.config.url as string);
-      const result_doc_id = await createResultDoc();
-      await postCroftScrapeConfig({
-        impression_id: id as string,
-        result_doc_id,
-        ...(impression as Impression).config,
-        wait_for_selector: impression?.config.items[0].css_selector,
-      });
+      const result_doc_id = await createResultDoc(id as string);
+      // await postCroftScrapeConfig({
+      //   impression_id: id as string,
+      //   result_doc_id,
+      //   ...(impression as Impression).config,
+      //   wait_for_selector: impression?.config.items[0].css_selector,
+      // });
 
       navigate(`/result/${result_doc_id}`);
     } catch (e) {

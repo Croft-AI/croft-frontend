@@ -32,6 +32,23 @@ export interface Impression {
   title: string;
   description: string;
 }
+export interface ImpressionConfigType {
+  url: string;
+  items: ImpressionConfigItemType[];
+  wait_for_selector?: string;
+}
+export interface ImpressionConfigItemType {
+  title: string;
+  css_selector: string;
+  get_attributes: HTMLAttributes[];
+}
+export interface Impression {
+  config: ImpressionConfigType;
+  createdBy: string;
+  createdOn: Date;
+  title: string;
+  description: string;
+}
 
 exports.onAccountCreation = functions.firestore
   .document("/user/{acc}")
@@ -98,6 +115,43 @@ exports.restrictScheduleCreates = functions.firestore
     if (currSchedules.length > 3) {
       await snap.ref.delete();
     }
+  });
+
+exports.onResultCreation = functions.firestore
+  .document("/result/{res}")
+  .onCreate(async (snap, context) => {
+    const { impressionId } = snap.data();
+    const resultId = snap.id;
+    console.log(impressionId);
+    await admin
+      .firestore()
+      .collection("impression")
+      .doc(impressionId)
+      .get()
+      .then(async (doc) => {
+        console.log(doc.data());
+        const { url, items } = (doc.data() as Impression).config;
+        const body = {
+          configs: [
+            {
+              url,
+              items,
+              wait_for_selector: items[0].css_selector,
+              result_doc_id: resultId,
+              impression_id: impressionId,
+            },
+          ],
+        };
+
+        try {
+          await axios.post(
+            "https://croft-pub-access-ysekuofdbq-uc.a.run.app",
+            body
+          );
+        } catch (e) {
+          console.error(e);
+        }
+      });
   });
 
 exports.hourlyScheduledTask = functions.pubsub

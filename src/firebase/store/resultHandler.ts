@@ -21,16 +21,20 @@ export interface ScrapeResult {
   status: ScrapeStatusCode;
 }
 
-
 export enum ScrapeStatusCode {
   SUCCESS = 1,
   PROGRESS = 2,
   FAILED = 3,
 }
 
-export const createResultDoc = async (): Promise<string> => {
+export const createResultDoc = async (
+  impressionId: string
+): Promise<string> => {
   try {
-    const docRef = await addDoc(collection(db, "result"), { status: 2 });
+    const docRef = await addDoc(collection(db, "result"), {
+      status: 2,
+      impressionId,
+    });
     return docRef.id;
   } catch (e) {
     console.error(e);

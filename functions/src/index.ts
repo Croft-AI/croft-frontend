@@ -134,6 +134,34 @@ exports.restrictScheduleCreates = functions.firestore
     }
   });
 
+  exports.restrictImpressionCreates = functions.firestore
+  .document("/impression/{imp}")
+  .onCreate(async (snap, context) => {
+    const { createdBy } = snap.data();
+    // const schedulesRef = collection(db, "schedule");
+    // const q = query(schedulesRef, where("createdBy", "==", createdBy));
+    // const querySnapshot = await getDocs(q);
+    let currImpression: DocumentData[] = [];
+    let isPremium = await checkIfUserIsPremium(createdBy);
+    const limit = isPremium
+      ? PremiumAccountLimits.IMPRESSIONS
+      : BasicAccountLimits.IMPRESSIONS;
+    await admin
+      .firestore()
+      .collection("impression")
+      .where("createdBy", "==", createdBy)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          currImpression.push(doc.data());
+        });
+      });
+    // console.log(createdBy, snap.id, currImpression);
+    if (currImpression.length > limit) {
+      await snap.ref.delete();
+    }
+  });
+
 exports.onResultCreation = functions.firestore
   .document("/result/{res}")
   .onCreate(async (snap, context) => {

@@ -2,7 +2,7 @@ import { collection, getDoc, getDocs, query } from "firebase/firestore";
 import { db } from "../base";
 import { Impression } from "./impressionHandler";
 
-enum CatalogueTags {
+export enum CatalogueTags {
   ECOMMERCE = "E-Commerce",
   SECURITY = "Security",
   FORUM = "Forum",

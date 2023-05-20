@@ -1,18 +1,21 @@
-import React, { useEffect } from "react";
-import PageTitle from "../../components/universal/labels/PageTitle";
-import NavBar from "../../components/universal/nav/NavBar";
-import { getCatalogues } from "../../firebase/store/catalogueHandler";
+import React, { useEffect, useState } from "react";
+import {
+  getCatalogues,
+  Catalogue,
+} from "../../firebase/store/catalogueHandler";
 import {
   NotificationType,
   pushNotification,
 } from "../../notifications/notificationPusher";
+import CatalogueContainer from "./CatalogueContainer";
 
 const DashboardPage = () => {
+  const [catalogues, setCatalogues] = useState<Catalogue[]>([]);
   useEffect(() => {
     const getAllCatalogues = async () => {
       try {
-        const catalogues = await getCatalogues();
-        console.log(catalogues);
+        const cats = await getCatalogues();
+        setCatalogues(cats);
       } catch (e) {
         console.error(e);
         pushNotification(
@@ -24,7 +27,13 @@ const DashboardPage = () => {
     };
     getAllCatalogues();
   }, []);
-  return <div></div>;
+  return (
+    <div className="grid grid-cols-3 md:grid-cols-4">
+      {catalogues.map((item) => {
+        return <CatalogueContainer data={item} hasShadow={true} />;
+      })}
+    </div>
+  );
 };
 
 export default DashboardPage;

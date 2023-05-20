@@ -1,7 +1,10 @@
 import { Table } from "@mantine/core";
+import { IconCreditCard } from "@tabler/icons-react";
 import { IoDownload } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import Pill from "../../components/universal/labels/Pill";
 import { UserInvoice } from "../../firebase/auth/userHandler";
+import { createPortalLink } from "../../stripe/createPortalLink";
 interface IBillingHistory {
   invoices: UserInvoice[];
 }
@@ -58,6 +61,9 @@ const BillingHistory: React.FC<IBillingHistory> = ({ invoices }) => {
           })}
         </tbody>
       </Table>
+      <button className="btn btn-ghost btn-square" onClick={createPortalLink}>
+        <IconCreditCard />
+      </button>
     </>
   );
 };

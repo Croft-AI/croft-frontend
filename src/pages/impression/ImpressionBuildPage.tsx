@@ -78,7 +78,7 @@ const ImpressionBuildPage = () => {
   }, []);
 
   useEffect(() => {
-    const delayedSave = setTimeout(saveOnChange, 2000);
+    const delayedSave = setTimeout(saveOnChange, 1000);
     return () => clearTimeout(delayedSave);
   }, [impression]);
   return (

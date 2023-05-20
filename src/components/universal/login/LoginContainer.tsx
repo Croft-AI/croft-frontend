@@ -20,7 +20,7 @@ const LoginContainer = () => {
     <div className="w-80 h-fit p-8 border border-2 shadow shadow-lg rounded-3xl p-8 font-mono select-none bg-white">
       <div className="text-2xl font-black flex flex-row">
         <CroftIcon className="w-8 h-8" />
-        <p className="ml-2">Croft.ai</p>
+        <p className="ml-2">Croft.so</p>
       </div>
 
       <br></br>

@@ -39,7 +39,7 @@ const CatalogueContainer: React.FC<ICatalogueContainer> = ({
 }) => {
   const uid = useAuth();
   const navigate = useNavigate();
-  const { title, description, tag } = data;
+  const { title, description, tag, createdByUsername } = data;
   const shadowStyle = hasShadow ? "shadow shadow-lg" : "";
   const createImpressionFromCat = async () => {
     try {
@@ -67,11 +67,13 @@ const CatalogueContainer: React.FC<ICatalogueContainer> = ({
   };
   return (
     <div
-      className={`w-full h-52 border border-2 bg-white rounded-lg p-4 flex flex-col gap-2 ${shadowStyle}`}
+      className={`w-full h-56 border border-2 bg-white rounded-lg p-4 flex flex-col gap-2 select-none ${shadowStyle}`}
     >
       <p className="text-xl text-gray-700">{title}</p>
-
-      <p className="text-gray-500 line-clamp-2">{description}</p>
+      <p className="text-xs text-gray-400">Created By: {createdByUsername}</p>
+      <p className="text-gray-500 line-clamp-2 hidden lg:block">
+        {description}
+      </p>
       <div className="divider"></div>
       <div className="flex flex-row">
         <div className="flex flex-row gap-2 bg-slate-600 px-2 rounded-full py-1 h-fit">

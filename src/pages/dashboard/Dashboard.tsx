@@ -28,11 +28,19 @@ const DashboardPage = () => {
     getAllCatalogues();
   }, []);
   return (
-    <div className="grid grid-cols-3 md:grid-cols-4">
-      {catalogues.map((item) => {
-        return <CatalogueContainer data={item} hasShadow={true} />;
-      })}
-    </div>
+    <>
+      <p className="text-2xl">Catalogue</p>
+      <p className="text-sm text-secondary mt-4">
+        Scrape from popular sites with no tinkering needed. Add from catalogues
+        to start!
+      </p>
+      <div className="divider"></div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {catalogues.map((item) => {
+          return <CatalogueContainer data={item} hasShadow={true} />;
+        })}
+      </div>
+    </>
   );
 };
 

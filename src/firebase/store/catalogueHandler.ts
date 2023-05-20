@@ -4,6 +4,7 @@ import { Impression } from "./impressionHandler";
 
 enum CatalogueTags {
   ECOMMERCE = "E-Commerce",
+  SECURITY = "Security",
   FORUM = "Forum",
   NEWS = "News",
   FINANCE = "Finance",

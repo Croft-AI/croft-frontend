@@ -10,7 +10,7 @@ import { useLocation } from "react-router-dom";
 const sideBarContent = [
   {
     icon: <IoAlbums className="w-6 h-6" />,
-    name: "Dashboard",
+    name: "Catalogue",
     path: "/dashboard",
   },
   {

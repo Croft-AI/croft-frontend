@@ -10,6 +10,7 @@ import {
 import { randomName } from "../../helpers/randomNameGenerator/randomNameGenerator";
 import { ImpressionConfigType } from "../../helpers/types/ImpressionType";
 import { AccountIs } from "../../limits/AccountLimits";
+import usePremiumStatus from "../../stripe/usePremiumStatus";
 
 interface IImpressionTitle {
   onButtonClick: () => void;
@@ -21,10 +22,9 @@ const ImpressionTitle: React.FC<IImpressionTitle> = ({
   noOfImpressions,
 }) => {
   const [title, setTitle] = useState<string>(randomName().toUpperCase());
-  const [loading, setLoading] = useState<boolean>(false);
-  const [impressions, setImpressions] = useState<ImpressionRead[]>();
   const navigate = useNavigate();
   const auth = useAuth();
+  const isPremium = usePremiumStatus(auth as string);
   const createImpressionRedirect = async () => {
     const docId = await createNewImpression({
       createdBy: auth as string,
@@ -50,7 +50,10 @@ const ImpressionTitle: React.FC<IImpressionTitle> = ({
             checkout some of our presets below.
           </p>
         </div>
-        {noOfImpressions >= AccountIs["BASIC"].IMPRESSIONS ? (
+        {noOfImpressions >=
+        (isPremium
+          ? AccountIs["PREMIUM"].IMPRESSIONS
+          : AccountIs["BASIC"].IMPRESSIONS) ? (
           <></>
         ) : (
           <label htmlFor="my-modal-4" className="btn btn-square m-auto">

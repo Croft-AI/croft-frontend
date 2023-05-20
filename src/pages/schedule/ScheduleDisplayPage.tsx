@@ -67,7 +67,7 @@ const ScheduleDisplayPage = () => {
   }, []);
   const createSchedule = async (data: any) => {
     const { impressionId, title, frequency } = data;
-
+    console.log(data);
     try {
       validateScheduleValues({
         createdBy: auth as string,
@@ -158,12 +158,9 @@ const ScheduleDisplayPage = () => {
               </label>
               <select
                 className="select w-full select-bordered"
-                defaultValue={""}
                 {...register("impressionId")}
               >
-                <option disabled value={undefined} selected>
-                  Pick an Impression
-                </option>
+                <option disabled value={""} selected></option>
                 {impressions?.map((item) => {
                   return <option value={item.id}>{item.title}</option>;
                 })}
@@ -182,7 +179,10 @@ const ScheduleDisplayPage = () => {
         </label>
       </div>
       <div className="divider text-gray-300">
-        {schedules?.length}/{AccountIs["BASIC"].SCHEDULES}
+        {schedules?.length}/
+        {isPremium
+          ? AccountIs["PREMIUM"].SCHEDULES
+          : AccountIs["BASIC"].SCHEDULES}
       </div>
       <div className="flex flex-col gap-2">
         {schedules?.map((item) => (

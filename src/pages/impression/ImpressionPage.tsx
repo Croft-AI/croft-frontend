@@ -14,6 +14,7 @@ import {
   ImpressionRead,
 } from "../../firebase/store/impressionHandler";
 import { AccountIs } from "../../limits/AccountLimits";
+import usePremiumStatus from "../../stripe/usePremiumStatus";
 import ImpressionList from "./ImpressionList";
 import ImpressionListItem from "./ImpressionListItem";
 import ImpressionTitle from "./ImpressionTitle";
@@ -21,6 +22,7 @@ const ImpressionPage = () => {
   const [impressions, setImpressions] = useState<ImpressionRead[]>();
   const [loading, setLoading] = useState<boolean>(false);
   const auth = useAuth();
+  const isPremium = usePremiumStatus(auth as string);
   useEffect(() => {
     const loadImpressions = async () => {
       const list = await getImpressions(auth as string);
@@ -51,7 +53,10 @@ const ImpressionPage = () => {
           noOfImpressions={impressions?.length as number}
         />
         <div className="divider text-gray-300">
-          {impressions?.length}/{AccountIs["BASIC"].IMPRESSIONS}
+          {impressions?.length}/
+          {isPremium
+            ? AccountIs["PREMIUM"].IMPRESSIONS
+            : AccountIs["BASIC"].IMPRESSIONS}
         </div>
         <div className="h-96">
           <ImpressionList>

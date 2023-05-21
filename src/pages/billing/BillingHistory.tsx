@@ -1,5 +1,6 @@
 import { Table } from "@mantine/core";
-import { IconCreditCard } from "@tabler/icons-react";
+import { IconArrowRight, IconCreditCard } from "@tabler/icons-react";
+import { useState } from "react";
 import { IoDownload } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import Pill from "../../components/universal/labels/Pill";
@@ -10,12 +11,28 @@ interface IBillingHistory {
 }
 
 const BillingHistory: React.FC<IBillingHistory> = ({ invoices }) => {
+  const [stripeLoading, setStripeLoading] = useState<boolean>(false);
   return (
     <>
-      <p className="text-2xl">Your Billing</p>
-      <div className="flex flex-row text-gray-400 mt-2 gap-2">
-        <p>Account Type:</p>
-        <Pill title="PREMIUM"></Pill>
+      <div className="flex flex-row">
+        <div className="flex-grow">
+          <p className="text-2xl">Your Billing</p>
+          <div className="flex flex-row text-gray-400 mt-2 gap-2">
+            <p>Account Type:</p>
+            <Pill title="PREMIUM"></Pill>
+          </div>
+        </div>
+        <button
+          disabled={stripeLoading}
+          className="btn btn-ghost gap-2"
+          onClick={() => {
+            setStripeLoading(true);
+            createPortalLink();
+          }}
+        >
+          Stripe Dashboard
+          <IconArrowRight />
+        </button>
       </div>
       <div className="divider"></div>
       <Table>
@@ -61,9 +78,6 @@ const BillingHistory: React.FC<IBillingHistory> = ({ invoices }) => {
           })}
         </tbody>
       </Table>
-      <button className="btn btn-ghost btn-square" onClick={createPortalLink}>
-        <IconCreditCard />
-      </button>
     </>
   );
 };

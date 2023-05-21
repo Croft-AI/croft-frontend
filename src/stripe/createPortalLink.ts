@@ -10,7 +10,11 @@ export const createPortalLink = async () => {
     functions,
     "ext-firestore-stripe-payments-createPortalLink"
   );
-  console.log("getting link...");
+  pushNotification(
+    NotificationType.INFORMATION,
+    "Redirecting to Stripe",
+    "We're redirecting you to the Stripe Dashboard..."
+  );
   stripePortalFunctionRef({
     returnUrl: window.location.origin,
   })

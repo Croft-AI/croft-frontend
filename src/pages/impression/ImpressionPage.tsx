@@ -7,6 +7,7 @@ import {
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import LoadingPlaceholder from "../../components/placeholder/LoadingPlaceholder";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
 import { db } from "../../firebase/base";
 import {
@@ -19,8 +20,8 @@ import ImpressionList from "./ImpressionList";
 import ImpressionListItem from "./ImpressionListItem";
 import ImpressionTitle from "./ImpressionTitle";
 const ImpressionPage = () => {
-  const [impressions, setImpressions] = useState<ImpressionRead[]>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [impressions, setImpressions] = useState<ImpressionRead[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const auth = useAuth();
   const isPremium = usePremiumStatus(auth as string);
   useEffect(() => {
@@ -44,10 +45,14 @@ const ImpressionPage = () => {
       setImpressions(currImpressions);
     });
   }, []);
-  useEffect(() => setLoading(false), [impressions]);
+  useEffect(() => {
+    if ((impressions as ImpressionRead[]).length > 0) {
+      setLoading(false);
+    }
+  }, [impressions]);
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col flex-grow">
         <ImpressionTitle
           onButtonClick={() => null}
           noOfImpressions={impressions?.length as number}
@@ -58,21 +63,27 @@ const ImpressionPage = () => {
             ? AccountIs["PREMIUM"].IMPRESSIONS
             : AccountIs["BASIC"].IMPRESSIONS}
         </div>
-        <div className="h-96">
-          <ImpressionList>
-            {impressions !== undefined ? (
-              impressions.map((item) => (
-                <ImpressionListItem
-                  impressionId={item.id}
-                  path={`./${item.id}`}
-                  title={item.title}
-                  createdOn={item.createdOn.toDate()}
-                />
-              ))
-            ) : (
-              <></>
-            )}
-          </ImpressionList>
+        <div className="h-full">
+          {loading ? (
+            <LoadingPlaceholder />
+          ) : (
+            <div className="h-96">
+              <ImpressionList>
+                {impressions !== undefined ? (
+                  impressions.map((item) => (
+                    <ImpressionListItem
+                      impressionId={item.id}
+                      path={`./${item.id}`}
+                      title={item.title}
+                      createdOn={item.createdOn.toDate()}
+                    />
+                  ))
+                ) : (
+                  <></>
+                )}
+              </ImpressionList>
+            </div>
+          )}
         </div>
       </div>
     </>

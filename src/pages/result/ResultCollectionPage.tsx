@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import LoadingPlaceholder from "../../components/placeholder/LoadingPlaceholder";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
 import {
   getImpressions,
@@ -10,10 +11,12 @@ import ResultCollectionItem from "./ResultCollectionItem";
 
 const ResultCollectionPage = () => {
   const auth = useAuth();
+  const [loading, setLoading] = useState<boolean>(true);
   const [impressions, setImpressions] = useState<ImpressionRead[]>();
   useEffect(() => {
     const getAllImpressions = async () => {
       const list = await getImpressions(auth as string);
+      setLoading(false);
       setImpressions(list);
     };
     getAllImpressions();
@@ -26,22 +29,26 @@ const ResultCollectionPage = () => {
           View scraping history for each impression.
         </p>
         <div className="divider"></div>
-        <div className="h-96">
-          <ImpressionList>
-            {impressions !== undefined ? (
-              impressions.map((item) => (
-                <ResultCollectionItem
-                  impressionId={item.id}
-                  path={`./${item.id}/view`}
-                  title={item.title}
-                  createdOn={item.createdOn.toDate()}
-                />
-              ))
-            ) : (
-              <></>
-            )}
-          </ImpressionList>
-        </div>
+        {loading ? (
+          <LoadingPlaceholder />
+        ) : (
+          <div className="h-96">
+            <ImpressionList>
+              {impressions !== undefined ? (
+                impressions.map((item) => (
+                  <ResultCollectionItem
+                    impressionId={item.id}
+                    path={`./${item.id}/view`}
+                    title={item.title}
+                    createdOn={item.createdOn.toDate()}
+                  />
+                ))
+              ) : (
+                <></>
+              )}
+            </ImpressionList>
+          </div>
+        )}
       </div>
     </>
   );

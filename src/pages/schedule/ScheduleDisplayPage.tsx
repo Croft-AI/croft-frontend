@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { IoAdd } from "react-icons/io5";
+import ScheduleEmptyPlaceholder from "../../components/placeholder/ScheduleEmptyPlaceholder";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
 import { db } from "../../firebase/base";
 import {
@@ -32,8 +33,8 @@ const ScheduleDisplayPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [schedules, setSchedules] = useState<ScheduledTaskRead[]>();
-  const [impressions, setImpressions] = useState<ImpressionRead[]>();
+  const [schedules, setSchedules] = useState<ScheduledTaskRead[]>([]);
+  const [impressions, setImpressions] = useState<ImpressionRead[]>([]);
 
   useEffect(() => {
     const getUserImpressions = async () => {
@@ -184,11 +185,15 @@ const ScheduleDisplayPage = () => {
           ? AccountIs["PREMIUM"].SCHEDULES
           : AccountIs["BASIC"].SCHEDULES}
       </div>
-      <div className="flex flex-col gap-2">
-        {schedules?.map((item) => (
-          <ScheduledTaskContainer data={item} />
-        ))}
-      </div>
+      {(schedules as ScheduledTaskRead[]).length > 0 ? (
+        <div className="flex flex-col gap-2">
+          {schedules?.map((item) => (
+            <ScheduledTaskContainer data={item} />
+          ))}
+        </div>
+      ) : (
+        <ScheduleEmptyPlaceholder />
+      )}
     </>
   );
 };

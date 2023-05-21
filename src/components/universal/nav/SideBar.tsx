@@ -4,6 +4,7 @@ import {
   IoLibrary,
   IoDocumentText,
   IoHourglassOutline,
+  IoTimer,
 } from "react-icons/io5";
 import { useLocation } from "react-router-dom";
 
@@ -24,7 +25,7 @@ const sideBarContent = [
     path: "/result",
   },
   {
-    icon: <IoHourglassOutline className="w-6 h-6" />,
+    icon: <IoTimer className="w-6 h-6" />,
     name: "Schedules",
     path: "/schedules",
   },

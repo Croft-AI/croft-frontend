@@ -23,7 +23,11 @@ import {
   IoTerminal,
 } from "react-icons/io5";
 import { Impression } from "../../firebase/store/impressionHandler";
-import { downloadCSV } from "../../helpers/fileHelpers/downloadFile";
+import {
+  downloadCSV,
+  exportJSONData,
+} from "../../helpers/fileHelpers/downloadFile";
+import LoadingPlaceholder from "../../components/placeholder/LoadingPlaceholder";
 
 const statusBadges = {
   1: (
@@ -106,23 +110,25 @@ const ResultDisplayPage = () => {
         </p>
 
         {currView !== undefined ? (
-          <button
-            className="btn btn-ghost m-auto"
-            onClick={() =>
-              downloadCSV(
-                `croft-scrape-${new Date().getDate()}-${new Date().getMonth()}-${new Date().getFullYear()}-${
-                  data?.impressionId
-                }-${id as string}`,
-                currView
-              )
-            }
-          >
-            <IoDownload className="w-6 h-6" />
-          </button>
+          <div className="tooltip tooltip-top m-auto" data-tip="Export as JSON">
+            <button
+              className="btn btn-ghost m-auto"
+              onClick={() =>
+                exportJSONData(
+                  `croft-scrape-${new Date().getDate()}-${new Date().getMonth()}-${new Date().getFullYear()}-${
+                    data?.impressionId
+                  }-${id as string}`,
+                  data as ScrapeResult
+                )
+              }
+            >
+              <IoDownload className="w-6 h-6" />
+            </button>
+          </div>
         ) : (
           <></>
         )}
-        <div className="border-x-2 px-2 m-auto">
+        <div className="border-l-2 px-2 m-auto">
           <div className="w-fit h-fit bg-primary shadow shadow-inner shadow-slate-400 p-2 rounded-lg">
             <table className="text-right text-slate-100 text-xs ">
               <tr>
@@ -142,9 +148,6 @@ const ResultDisplayPage = () => {
             <div></div>
           </div>
         </div>
-        <button className="btn btn-ghost m-auto">
-          <IoRefresh className="w-6 h-6" />
-        </button>
       </div>
       <div>
         <div className="divider"></div>
@@ -165,7 +168,7 @@ const ResultDisplayPage = () => {
       ) : (
         <></>
       )}
-      <div className="w-full  mt-4">
+      <div className="w-full  mt-4 h-full">
         {multiTable !== undefined ? (
           <table className="overflow-x-auto  table-wrp block max-h-2/3">
             <thead className="sticky top-0 bg-white border border-1">
@@ -195,7 +198,7 @@ const ResultDisplayPage = () => {
             </tbody>
           </table>
         ) : (
-          <></>
+          <LoadingPlaceholder />
         )}
       </div>
     </div>

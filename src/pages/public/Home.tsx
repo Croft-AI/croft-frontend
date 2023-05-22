@@ -2,7 +2,7 @@ import { IoCheckmark } from "react-icons/io5";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
 import { ScheduleFrequency } from "../../firebase/store/scheduleHandler";
 import PlanContainer from "../billing/PlanContainer";
-
+import { ReactComponent as CroftIcon } from "../../assets/CroftIcon.svg";
 const LandingHome = () => {
   const auth = useAuth();
   return (
@@ -15,7 +15,9 @@ const LandingHome = () => {
         {(auth as string) ? (
           <div className="my-auto flex flex-row">
             <div className="px-4 py-2 bg-gray-600 rounded-full text-gray-100 shadow shadow-inner shadow-gray-500">
-              <a href="/dashboard">Go to Dashboard</a>
+              <a href={(auth as string) ? "/dashboard" : "/login"}>
+                Go to Dashboard
+              </a>
             </div>
           </div>
         ) : (
@@ -39,9 +41,11 @@ const LandingHome = () => {
             Leverage critical data with Croft
           </p>
           <div className="m-auto flex flex-row mt-8 gap-8">
-            <button className="w-fit px-6 py-4 rounded-lg font-mono text-slate-200 bg-slate-900 hover:bg-slate-600 active:bg-slate-700 shadow shadow-inner shadow-slate-500 shadow shadow-md">
-              Get Started
-            </button>
+            <a href={(auth as string) ? "/dashboard" : "/login"}>
+              <button className="w-fit px-6 py-4 rounded-lg font-mono text-slate-200 bg-slate-900 hover:bg-slate-600 active:bg-slate-700 shadow shadow-inner shadow-slate-500 shadow shadow-md">
+                Get Started
+              </button>
+            </a>
             <a href="#pricing">
               <button className="w-fit px-6 py-4 rounded-lg font-mono text-slate-800 font-bold hover:bg-slate-100 active:bg-slate-100 border border-2 border-slate-800 shadow shadow-inner shadow-slate-500 shadow shadow-md">
                 See Pricing
@@ -69,9 +73,11 @@ const LandingHome = () => {
             <p className="text-md md:text-xl font-mono mt-4 text-slate-700">
               Export in seconds 🚀
             </p>
-            <button className="w-fit mt-8 px-6 py-4 rounded-lg font-mono text-slate-200 bg-slate-900 hover:bg-slate-600 active:bg-slate-700 shadow shadow-inner shadow-slate-500 shadow shadow-md">
-              See Demo
-            </button>
+            <a href="https://youtu.be/gqikUWwm5W8">
+              <button className="w-fit mt-8 px-6 py-4 rounded-lg font-mono text-slate-200 bg-slate-900 hover:bg-slate-600 active:bg-slate-700 shadow shadow-inner shadow-slate-500 shadow shadow-md">
+                See Demo
+              </button>
+            </a>
           </div>
         </div>
         <div className="w-full h-fit flex flex-col md:flex-row mt-72">
@@ -210,9 +216,11 @@ const LandingHome = () => {
           </div>
           <div className="w-full mt-72 h-96 p-8 flex flex-col bg-gradient-to-b from-white via-slate-300 to-slate-600">
             <div className="m-auto w-full h-fit bg-white border border-2 shadow shadow-lg flex rounded-lg p-8">
-              <div className="m-auto">
-                <p className="text-xl font-bold font-mono">CROFT</p>
-
+              <div className="m-auto flex flex-col">
+                <div className="flex flex-row m-auto gap-2">
+                  <CroftIcon className="w-6 h-6" />
+                  <p className="text-xl font-bold font-mono">CROFT</p>
+                </div>
                 <p className="text-md text-gray-600 font-mono">
                   For Equiries: <u>hello@croft.so</u>
                 </p>

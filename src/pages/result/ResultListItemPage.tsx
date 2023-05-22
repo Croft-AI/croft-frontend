@@ -20,7 +20,7 @@ const ResultListItemPage = () => {
   const [sortedResults, setSortedResults] = useState<[]>([]);
   useEffect(() => {
     const getResults = async () => {
-      const pageResults = await getPaginateResult(id as string, 10);
+      const pageResults = await getPaginateResult(id as string, 20);
       setResults(pageResults);
     };
 
@@ -43,7 +43,7 @@ const ResultListItemPage = () => {
     <>
       <div className="flex-grow select-none">
         <p className="text-2xl">
-          Results for:{" "}
+          Last 20 Results for:{" "}
           <i className="text-xl text-gray-600">{impression?.title}</i>
         </p>
         <p className="text-sm text-secondary mt-4">{impression?.description}</p>

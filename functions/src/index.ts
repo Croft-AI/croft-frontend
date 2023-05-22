@@ -134,7 +134,7 @@ exports.restrictScheduleCreates = functions.firestore
     }
   });
 
-  exports.restrictImpressionCreates = functions.firestore
+exports.restrictImpressionCreates = functions.firestore
   .document("/impression/{imp}")
   .onCreate(async (snap, context) => {
     const { createdBy } = snap.data();
@@ -206,6 +206,120 @@ exports.hourlyScheduledTask = functions.pubsub
       .firestore()
       .collection("schedule")
       .where("frequency", "==", "HOURLY")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach(async (doc) => {
+          const { impressionId } = doc.data();
+          const scheduleId = doc.id;
+          await admin
+            .firestore()
+            .collection("impression")
+            .doc(impressionId)
+            .get()
+            .then(async (impDoc) => {
+              const { config } = impDoc.data() as Impression;
+              const { url, items } = config as ImpressionConfigType;
+              await admin
+                .firestore()
+                .collection("result")
+                .add({ status: 2 })
+                .then(async (resultDoc) => {
+                  const resultId = resultDoc.id;
+                  const body = {
+                    configs: [
+                      {
+                        url,
+                        items,
+                        wait_for_selector: config.items[0].css_selector,
+                        result_doc_id: resultId,
+                        impression_id: impressionId,
+                      },
+                    ],
+                  };
+
+                  try {
+                    await axios.post(
+                      "https://croft-pub-access-ysekuofdbq-uc.a.run.app",
+                      body
+                    );
+                    await admin
+                      .firestore()
+                      .collection("schedule")
+                      .doc(scheduleId)
+                      .set({ lastUpdated: new Date() }, { merge: true });
+                  } catch (e) {
+                    console.error(e);
+                  }
+                });
+            });
+        });
+      });
+  });
+
+exports.dailyScheduledTask = functions.pubsub
+  .schedule("0 0 * * *")
+  .onRun(async (context) => {
+    await admin
+      .firestore()
+      .collection("schedule")
+      .where("frequency", "==", "DAILY")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach(async (doc) => {
+          const { impressionId } = doc.data();
+          const scheduleId = doc.id;
+          await admin
+            .firestore()
+            .collection("impression")
+            .doc(impressionId)
+            .get()
+            .then(async (impDoc) => {
+              const { config } = impDoc.data() as Impression;
+              const { url, items } = config as ImpressionConfigType;
+              await admin
+                .firestore()
+                .collection("result")
+                .add({ status: 2 })
+                .then(async (resultDoc) => {
+                  const resultId = resultDoc.id;
+                  const body = {
+                    configs: [
+                      {
+                        url,
+                        items,
+                        wait_for_selector: config.items[0].css_selector,
+                        result_doc_id: resultId,
+                        impression_id: impressionId,
+                      },
+                    ],
+                  };
+
+                  try {
+                    await axios.post(
+                      "https://croft-pub-access-ysekuofdbq-uc.a.run.app",
+                      body
+                    );
+                    await admin
+                      .firestore()
+                      .collection("schedule")
+                      .doc(scheduleId)
+                      .set({ lastUpdated: new Date() }, { merge: true });
+                  } catch (e) {
+                    console.error(e);
+                  }
+                });
+            });
+        });
+      });
+  });
+
+exports.dailyScheduledTask = functions.pubsub
+  .schedule("0 0 * * 0")
+  .onRun(async (context) => {
+    await admin
+      .firestore()
+      .collection("schedule")
+      .where("frequency", "==", "WEEKLY")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach(async (doc) => {

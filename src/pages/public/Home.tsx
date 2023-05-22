@@ -12,15 +12,23 @@ const LandingHome = () => {
           CROFT
         </button>
         <div className="flex-grow"></div>
-        <div className="my-auto flex flex-row">
-          <p className="my-auto px-4">
-            <a href="/login">Login</a>
-          </p>
-          <div className="divider divider-horizontal mx-0"></div>
-          <div className="px-4 py-2 bg-gray-600 rounded-full text-gray-100 shadow shadow-inner shadow-gray-500">
-            <a href="/signup">Sign Up</a>
+        {(auth as string) ? (
+          <div className="my-auto flex flex-row">
+            <div className="px-4 py-2 bg-gray-600 rounded-full text-gray-100 shadow shadow-inner shadow-gray-500">
+              <a href="/dashboard">Go to Dashboard</a>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="my-auto flex flex-row">
+            <p className="my-auto px-4">
+              <a href="/login">Login</a>
+            </p>
+            <div className="divider divider-horizontal mx-0"></div>
+            <div className="px-4 py-2 bg-gray-600 rounded-full text-gray-100 shadow shadow-inner shadow-gray-500">
+              <a href="/signup">Sign Up</a>
+            </div>
+          </div>
+        )}
       </div>
       <div className="h-fit  w-full">
         <div className="w-full h-fit flex py-72 flex flex-col text-center">

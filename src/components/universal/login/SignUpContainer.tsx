@@ -124,13 +124,20 @@ const SignUpContainer = () => {
         Sign Up
       </button>
       <div className="divider text-secondary">OR</div>
-      <div className="w-full flex">
+      <div className="w-full flex flex-col">
         <button
           className="btn btn-circle btn-ghost m-auto"
           onClick={signInWithGoogle}
         >
           <IoLogoGoogle className="w-10 h-10" />
         </button>
+        <br></br>
+        <p className="text-2xs text-secondary m-auto">
+          Back to{" "}
+          <a href="/login" className="underline hover:text-primary">
+            Login
+          </a>
+        </p>
       </div>
     </div>
   );

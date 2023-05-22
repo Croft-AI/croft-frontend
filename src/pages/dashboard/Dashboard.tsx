@@ -29,7 +29,7 @@ const DashboardPage = () => {
   }, []);
   return (
     <>
-      <p className="text-2xl">Catalogue</p>
+      <p className="text-2xl">Catalogue 📚</p>
       <p className="text-sm text-secondary mt-4">
         Scrape from popular sites with no tinkering needed. Add from catalogues
         to start!

@@ -13,7 +13,7 @@ const LoginContainer = () => {
 
   useEffect(() => {
     if (auth) {
-      navigate("/");
+      navigate("/dashboard");
     }
   }, [auth, navigate]);
   return (

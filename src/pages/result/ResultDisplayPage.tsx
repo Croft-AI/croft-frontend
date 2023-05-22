@@ -167,7 +167,7 @@ const ResultDisplayPage = () => {
       )}
       <div className="w-full  mt-4">
         {multiTable !== undefined ? (
-          <table className="overflow-x-auto  table-wrp block max-h-96">
+          <table className="overflow-x-auto  table-wrp block max-h-2/3">
             <thead className="sticky top-0 bg-white border border-1">
               <tr>
                 {currView[0].map((item) => {
@@ -175,7 +175,7 @@ const ResultDisplayPage = () => {
                 })}
               </tr>
             </thead>
-            <tbody className="h-96 overflow-y-auto overflow-x-hidden">
+            <tbody className="h-1/2 overflow-y-auto overflow-x-hidden">
               {currView.slice(1).map((item, rowIdx) => {
                 return (
                   <tr>

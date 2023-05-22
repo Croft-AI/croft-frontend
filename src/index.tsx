@@ -24,6 +24,7 @@ import ScheduleDisplayPage from "./pages/schedule/ScheduleDisplayPage";
 import { Notifications } from "@mantine/notifications";
 import ProfilePage from "./pages/profile/ProfilePage";
 import BillingPage from "./pages/billing/BillingPage";
+import LandingHome from "./pages/public/Home";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -69,6 +70,7 @@ const router = createBrowserRouter([
   },
   { path: "/signup", element: <SignUpPage /> },
   { path: "/forgot", element: <ForgotPasswordPage /> },
+  { path: "/home", element: <LandingHome /> },
 ]);
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

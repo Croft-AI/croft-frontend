@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import LoadingPlaceholder from "../../components/placeholder/LoadingPlaceholder";
+import ResultEmptyPlaceholder from "../../components/placeholder/ResultEmptyPlaceholder";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
 import {
   getImpressions,
@@ -31,6 +32,8 @@ const ResultCollectionPage = () => {
         <div className="divider"></div>
         {loading ? (
           <LoadingPlaceholder />
+        ) : impressions?.length === 0 ? (
+          <ResultEmptyPlaceholder />
         ) : (
           <div className="h-96">
             <ImpressionList>

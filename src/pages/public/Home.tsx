@@ -3,6 +3,7 @@ import { useAuth } from "../../firebase/auth/AuthContextWrapper";
 import { ScheduleFrequency } from "../../firebase/store/scheduleHandler";
 import PlanContainer from "../billing/PlanContainer";
 import { ReactComponent as CroftIcon } from "../../assets/CroftIcon.svg";
+import { SiNotion } from "react-icons/si";
 const LandingHome = () => {
   const auth = useAuth();
   return (
@@ -33,7 +34,7 @@ const LandingHome = () => {
         )}
       </div>
       <div className="h-fit  w-full">
-        <div className="w-full h-fit flex py-72 flex flex-col text-center">
+        <div className="w-full h-fit flex py-64 flex flex-col text-center">
           <p className="m-auto text-4xl md:text-8xl font-bold text-transparent bg-clip-text  bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-slate-900 via-slate-700 to-slate-400">
             Traverse The Web
           </p>
@@ -49,6 +50,14 @@ const LandingHome = () => {
             <a href="#pricing">
               <button className="w-fit px-6 py-4 rounded-lg font-mono text-slate-800 font-bold hover:bg-slate-100 active:bg-slate-100 border border-2 border-slate-800 shadow shadow-inner shadow-slate-500 shadow shadow-md">
                 See Pricing
+              </button>
+            </a>
+          </div>
+          <div className="m-auto mt-10 ">
+            <a href="https://brass-octagon-0f3.notion.site/Documentation-f0687ca7095243f58db263c5ab1e2355">
+              <button className="btn btn-ghost gap-4 font-mono text-slate-600">
+                <SiNotion className="w-8 h-8"></SiNotion> See Documentation{" "}
+                {">"}
               </button>
             </a>
           </div>
@@ -156,7 +165,7 @@ const LandingHome = () => {
             </p>
           </div>
         </div>
-        <div className="w-full h-fit flex flex-col mt-32">
+        <div className="w-full h-fit flex flex-col mt-64">
           <img
             src={require("./macImpressionDisplay.png")}
             className="w-2/3 md:w-1/2 m-auto"
@@ -172,6 +181,11 @@ const LandingHome = () => {
               Browse from a variety of pre-build configurations from{" "}
               <u>Catalogue</u>
             </p>
+            <a href="https://youtu.be/gqikUWwm5W8">
+              <button className="w-fit mt-8 px-6 py-4 rounded-lg font-mono text-slate-200 bg-slate-900 hover:bg-slate-600 active:bg-slate-700 shadow shadow-inner shadow-slate-500 shadow shadow-md">
+                See Demo
+              </button>
+            </a>
           </div>
         </div>
         <div className="w-full h-fit flex flex-col mt-32 text-center">

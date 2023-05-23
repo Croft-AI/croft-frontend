@@ -3,7 +3,6 @@ import { app } from "../firebase/base";
 import {
   createCheckoutSession,
   getStripePayments,
-  
 } from "@stripe/firestore-stripe-payments";
 
 const payments = getStripePayments(app, {
@@ -12,7 +11,7 @@ const payments = getStripePayments(app, {
 });
 export const redirectToCheckout = async (): Promise<void> => {
   const session = await createCheckoutSession(payments, {
-    price: "price_1N5kwvLYizD2F9cIgm8dlLEr",
+    price: "price_1N5kQbLYizD2F9cI0mx92m27",
     success_url: window.location.origin,
     cancel_url: window.location.origin,
   });

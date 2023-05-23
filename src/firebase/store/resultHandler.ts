@@ -19,6 +19,7 @@ export interface ScrapeResult {
   scrapeDatetime: Timestamp;
   scrapeDuration: number;
   status: ScrapeStatusCode;
+  error_message?: string;
 }
 
 export enum ScrapeStatusCode {

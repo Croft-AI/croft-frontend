@@ -21,18 +21,11 @@ import PlanContainer from "./PlanContainer";
 const BillingPage = () => {
   const uid = useAuth();
   const userIsPremium = usePremiumStatus(uid as string);
-  const [invoices, setInvoices] = useState<UserInvoice[]>();
-  useEffect(() => {
-    const getInvoices = async () => {
-      const allInvoices = await getUserPaymentInvoice(uid as string);
-      setInvoices(allInvoices);
-    };
-    getInvoices();
-  }, []);
+  console.log(userIsPremium);
   return (
     <>
       {userIsPremium ? (
-        <BillingHistory invoices={invoices as UserInvoice[]} />
+        <BillingHistory />
       ) : (
         <BillingPlans premium={userIsPremium} />
       )}

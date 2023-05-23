@@ -55,7 +55,7 @@ const ResultDisplayPage = () => {
   const [multiTable, setMultiTable] = useState<string[][][] | undefined>();
   const [multiTableSelect, setMultiTableSelect] = useState<number>(0);
   const [data, setData] = useState<ScrapeResult>();
-
+  const [isError, setIsError] = useState<boolean>(false);
   useEffect(() => {
     onSnapshot(
       doc(db, "result", id as string),
@@ -63,13 +63,17 @@ const ResultDisplayPage = () => {
         const scrapeResult = doc.data() as ScrapeResult;
         setData(scrapeResult);
         setScrapeStatus(scrapeResult.status);
+        if (scrapeResult.status === 3) {
+          setIsError(true);
+          return;
+        }
         // console.log(scrapeResult);
         // if (isOneTable(scrapeResult.result)) {
         //   console.log("one table");
         //   setTable(convertToTwoDArray((doc.data() as ScrapeResult).result));
         //   setMultiTable(undefined);
         // } else {
-        // console.log("log", scrapeResult);
+        console.log("log", scrapeResult);
         let tempObj = {};
         let tableHeaders = [];
         let tableValues = [];
@@ -110,21 +114,28 @@ const ResultDisplayPage = () => {
         </p>
 
         {currView !== undefined ? (
-          <div className="tooltip tooltip-top m-auto" data-tip="Export as JSON">
-            <button
-              className="btn btn-ghost m-auto"
-              onClick={() =>
-                exportJSONData(
-                  `croft-scrape-${new Date().getDate()}-${new Date().getMonth()}-${new Date().getFullYear()}-${
-                    data?.impressionId
-                  }-${id as string}`,
-                  data as ScrapeResult
-                )
-              }
+          isError ? (
+            <></>
+          ) : (
+            <div
+              className="tooltip tooltip-top m-auto"
+              data-tip="Export as JSON"
             >
-              <IoDownload className="w-6 h-6" />
-            </button>
-          </div>
+              <button
+                className="btn btn-ghost m-auto"
+                onClick={() =>
+                  exportJSONData(
+                    `croft-scrape-${new Date().getDate()}-${new Date().getMonth()}-${new Date().getFullYear()}-${
+                      data?.impressionId
+                    }-${id as string}`,
+                    data as ScrapeResult
+                  )
+                }
+              >
+                <IoDownload className="w-6 h-6" />
+              </button>
+            </div>
+          )
         ) : (
           <></>
         )}
@@ -197,6 +208,13 @@ const ResultDisplayPage = () => {
               })}
             </tbody>
           </table>
+        ) : isError ? (
+          <div className="w-full h-96 bg-slate-800 rounded-lg shadow shadow-inner shadow-slate-400 p-8">
+            {data?.error_message?.split("\n").map((item) => (
+              <p className="text-red-300">{item}</p>
+            ))}
+            <span className="animate-blink text-white">{">"}</span>
+          </div>
         ) : (
           <LoadingPlaceholder />
         )}

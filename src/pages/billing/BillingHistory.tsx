@@ -1,17 +1,29 @@
 import { Table } from "@mantine/core";
 import { IconArrowRight, IconCreditCard } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoDownload } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import Pill from "../../components/universal/labels/Pill";
-import { UserInvoice } from "../../firebase/auth/userHandler";
+import { useAuth } from "../../firebase/auth/AuthContextWrapper";
+import {
+  getUserPaymentInvoice,
+  UserInvoice,
+} from "../../firebase/auth/userHandler";
 import { createPortalLink } from "../../stripe/createPortalLink";
-interface IBillingHistory {
-  invoices: UserInvoice[];
-}
+interface IBillingHistory {}
 
-const BillingHistory: React.FC<IBillingHistory> = ({ invoices }) => {
+const BillingHistory: React.FC<IBillingHistory> = () => {
+  const uid = useAuth();
   const [stripeLoading, setStripeLoading] = useState<boolean>(false);
+  const [invoices, setInvoices] = useState<UserInvoice[]>();
+  useEffect(() => {
+    const getInvoices = async () => {
+      const allInvoices = await getUserPaymentInvoice(uid as string);
+      setInvoices(allInvoices);
+    };
+    getInvoices();
+  }, []);
+
   return (
     <>
       <div className="flex flex-row">

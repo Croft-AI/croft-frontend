@@ -7,6 +7,7 @@ import {
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import ImpressionEmptyPlaceholder from "../../components/placeholder/ImpressionEmptyPlaceholder";
 import LoadingPlaceholder from "../../components/placeholder/LoadingPlaceholder";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
 import { db } from "../../firebase/base";
@@ -28,6 +29,7 @@ const ImpressionPage = () => {
     const loadImpressions = async () => {
       const list = await getImpressions(auth as string);
       setImpressions(list);
+      setLoading(false);
     };
     loadImpressions();
   }, []);
@@ -66,6 +68,8 @@ const ImpressionPage = () => {
         <div className="h-full">
           {loading ? (
             <LoadingPlaceholder />
+          ) : impressions.length === 0 ? (
+            <ImpressionEmptyPlaceholder />
           ) : (
             <div className="h-96">
               <ImpressionList>

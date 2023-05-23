@@ -46,8 +46,14 @@ const ImpressionTitle: React.FC<IImpressionTitle> = ({
         <div className="flex-grow">
           <p className="text-2xl">Impressions</p>
           <p className="text-sm text-secondary mt-4">
-            Create an impression to start extracting data from websites OR
-            checkout some of our presets below.
+            Create an impression to start extracting data from websites. See
+            documentation{" "}
+            <a
+              href="https://brass-octagon-0f3.notion.site/Documentation-f0687ca7095243f58db263c5ab1e2355"
+              className="underline text-gray-600"
+            >
+              here
+            </a>
           </p>
         </div>
         {noOfImpressions >=

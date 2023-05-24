@@ -55,11 +55,11 @@ const SignUpContainer = () => {
   };
   useEffect(() => {
     if (auth) {
-      navigate("/");
+      navigate("/dashboard");
     }
   }, [auth, navigate]);
   return (
-    <div className="w-96 h-fit p-8 border border-2 shadow shadow-lg rounded-3xl p-8 font-mono select-none bg-white">
+    <div className="w-80 sm:w-96 h-fit p-8 border border-2 shadow shadow-lg rounded-3xl p-8 font-mono select-none bg-white">
       <div className="text-2xl font-black flex flex-row">
         <CroftIcon className="w-8 h-8" />
         <p className="ml-2">Croft.so</p>

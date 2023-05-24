@@ -26,7 +26,7 @@ const ForgotPasswordContainer = () => {
     <div className="w-80 h-fit p-8 border border-2 shadow shadow-lg rounded-3xl p-8 font-mono select-none bg-white">
       <p className="text-xl font-bold">Forgot Password?</p>
       <p className="text-sm text-secondary mt-1">
-        Type your Email, we'll fix it.
+        Check your inbox to reset.
       </p>
       <br></br>
       <div className="form-control w-full max-w-xs">

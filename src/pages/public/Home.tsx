@@ -75,8 +75,7 @@ const LandingHome = () => {
               Don't lose your head with headless browsers 🤯
             </p>
             <p className="text-md md:text-xl font-mono mt-4 text-slate-700">
-              Scrape key open-source information using through{" "}
-              <u>Impressions</u>
+              Scrape key open-source information using <u>Impressions</u>
             </p>
 
             <p className="text-md md:text-xl font-mono mt-4 text-slate-700">
@@ -111,7 +110,7 @@ const LandingHome = () => {
                 <div>
                   <label className="label">
                     <label className="label-text text-sm text-secondary">
-                      Select Frequency:
+                      Frequency:
                     </label>
                   </label>
                   <select

@@ -59,7 +59,7 @@ const PlanContainer: React.FC<IPlanContainer> = ({
             Subscribe
           </button>
         ) : (
-          <div className="h-16"></div>
+          <div className="h-12"></div>
         )}
       </div>
     </div>

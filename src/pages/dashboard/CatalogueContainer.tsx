@@ -69,7 +69,7 @@ const CatalogueContainer: React.FC<ICatalogueContainer> = ({
     <div
       className={`w-full h-56 border border-2 bg-white rounded-lg p-4 flex flex-col gap-2 select-none ${shadowStyle}`}
     >
-      <p className="text-xl text-gray-700">{title}</p>
+      <p className="text-xl text-gray-700 truncate h-56">{title}</p>
       <p className="text-xs text-gray-400">Created By: {createdByUsername}</p>
       <p className="text-gray-500 line-clamp-2 hidden lg:block">
         {description}

@@ -16,7 +16,7 @@ export const createPortalLink = async () => {
     "We're redirecting you to the Stripe Dashboard..."
   );
   stripePortalFunctionRef({
-    returnUrl: window.location.origin,
+    returnUrl: `${window.location.origin}/billing`,
   })
     .then((data) => {
       const url = (data as any).data.url as string;

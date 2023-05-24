@@ -39,8 +39,7 @@ const BillingPlans: React.FC<IBillingPlans> = ({ premium }) => {
               characteristics={[
                 "50 Impressions",
                 "10 Schedules",
-                "Proxy Rotations",
-                "By-pass Bot Detection",
+                "Unlimited Results",
               ]}
               onSubscribe={() => {
                 pushNotification(
